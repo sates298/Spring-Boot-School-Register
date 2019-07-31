@@ -35,8 +35,6 @@ public class StudentController {
         }
 
         model.addAttribute("student", found);
-//        i think it is not necessary
-        model.addAttribute("grades", gradeService.findAllByStudentId(id));
 
         return "student/studentDetails";
     }

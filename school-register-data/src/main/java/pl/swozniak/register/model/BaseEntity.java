@@ -9,7 +9,6 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseEntity{
