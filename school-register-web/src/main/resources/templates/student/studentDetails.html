@@ -12,24 +12,12 @@
         <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
     </tr>
     <tr>
-        <th>Number in register</th>
-        <td th:text="*{number}"></td>
-    </tr>
-    <tr>
         <th>Class</th>
-        <td th><a th:href="@{/schoolClass/{id}(id=${student.schoolClass.id})}" th:text="*{schoolClass}"/></td>
-    </tr>
-    <tr>
-        <th>Unpreparedness</th>
-        <td th:text="*{unpreparedness.size()}" ></td>
-    </tr>
-    <tr>
-        <th>Absence</th>
-        <td th:text="*{absence.size()}" ></td>
+        <td th><a th:href="@{/schoolClass/{id}(id=*{schoolClass.id})}" th:text="*{schoolClass}"/></td>
     </tr>
     <tr>
         <th>Grades</th>
-        <td><span th:each="curGrade : ${grades}">
+        <td><span th:each="curGrade : *{grades}">
             <a th:href="@{/grade/__${curGrade.id}__}" th:text="${curGrade.grade}"/>
         </span> </td>
     </tr>

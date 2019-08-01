@@ -26,18 +26,4 @@ public class SchoolClassServiceImpl implements SchoolClassService {
         return schoolClassRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public SchoolClass save(SchoolClass object) {
-        return schoolClassRepository.save(object);
-    }
-
-    @Override
-    public void delete(SchoolClass object) {
-        schoolClassRepository.delete(object);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        schoolClassRepository.deleteById(id);
-    }
 }

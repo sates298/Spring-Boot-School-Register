@@ -1,6 +1,7 @@
 package pl.swozniak.register.model;
 
 import lombok.*;
+import pl.swozniak.register.model.enums.ClassLevel;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -23,12 +24,11 @@ public class SchoolClass extends BaseEntity {
     private Character character;
 
     @Column(name = "level")
-    @Min(1)
-    @Max(8)
-    private Integer level;
+    @Enumerated
+    private ClassLevel level;
 
     @Builder
-    public SchoolClass(Long id, List<Student> students, Character character, Integer level) {
+    public SchoolClass(Long id, List<Student> students, Character character, ClassLevel level) {
         super(id);
         this.students = students;
         this.character = character;

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.swozniak.register.model.*;
+import pl.swozniak.register.model.enums.ClassLevel;
 import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.SchoolClassService;
@@ -27,28 +28,28 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(studentService.findAll().size() == 0){
+        if(schoolClassService.findAll().size() == 0){
             log.info("----start of loading sample data----");
-            loadData();
+//            loadData();
             log.info("----end of loading sample data----");
         }
     }
 
     private void loadData(){
-        Student student1 = createStudent(1L, "first1", "last1", 5);
-        Student student2 = createStudent(2L, "first2", "last2", 10);
+        Student student1 = createStudent(1L, "first1", "last1");
+        Student student2 = createStudent(2L, "first2", "last2");
 
-        SchoolClass classA = createSchoolClass('A', 1L, 1);
-        SchoolClass classB = createSchoolClass('B', 2L, 3);
+        SchoolClass classA = createSchoolClass('A', 1L, ClassLevel.FIRST);
+        SchoolClass classB = createSchoolClass('B', 2L, ClassLevel.THIRD);
 
 
         Grade grade3 = crateGrade(1L, GradeValue.THREE, 1, "exam3");
         Grade grade4 = crateGrade(2L, GradeValue.FOUR, 2, "exam4");
 
 
-        classA = saveSchoolClass(classA);
-        classB = saveSchoolClass(classB);
-        log.info("save classes");
+//        classA = saveSchoolClass(classA);
+//        classB = saveSchoolClass(classB);
+//        log.info("save classes");
 
         student1.setSchoolClass(classA);
         student2.setSchoolClass(classA);
@@ -66,7 +67,7 @@ public class DataLoader implements CommandLineRunner {
 
     }
 
-    private SchoolClass createSchoolClass(char a, long id, int level) {
+    private SchoolClass createSchoolClass(char a, long id, ClassLevel level) {
         return SchoolClass.builder()
                 .character(a)
                 .id(id)
@@ -75,12 +76,11 @@ public class DataLoader implements CommandLineRunner {
                 .build();
     }
 
-    private Student createStudent(long id, String first, String last, int number) {
+    private Student createStudent(long id, String first, String last) {
         return Student.builder()
                 .id(id)
                 .firstName(first)
                 .lastName(last)
-                .number(number)
                 .grades(new ArrayList<>())
                 .build();
     }
@@ -98,9 +98,9 @@ public class DataLoader implements CommandLineRunner {
         return studentService.save(student);
     }
 
-    private SchoolClass saveSchoolClass(SchoolClass schoolClass){
-        return schoolClassService.save(schoolClass);
-    }
+//    private SchoolClass saveSchoolClass(SchoolClass schoolClass){
+//        return schoolClassService.save(schoolClass);
+//    }
 
     private Grade saveGrade(Grade grade){
         return gradeService.save(grade);

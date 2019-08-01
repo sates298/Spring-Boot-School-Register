@@ -1,10 +1,12 @@
 package pl.swozniak.register.services;
 
+
 import pl.swozniak.register.model.Grade;
+import pl.swozniak.register.model.Subject;
 
-import java.util.List;
-
-public interface GradeService extends CrudService<Grade, Long> {
-
-    List<Grade> findAllByStudentId(Long studentId);
+public interface GradeService {
+    Grade findById(Long id);
+    Grade save(Grade grade);
+    void delete(Grade grade);
+    void deleteById(Long id);
 }

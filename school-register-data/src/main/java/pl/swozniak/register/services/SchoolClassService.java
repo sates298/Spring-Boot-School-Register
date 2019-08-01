@@ -2,5 +2,9 @@ package pl.swozniak.register.services;
 
 import pl.swozniak.register.model.SchoolClass;
 
-public interface SchoolClassService extends CrudService<SchoolClass, Long> {
+import java.util.List;
+
+public interface SchoolClassService {
+    List<SchoolClass> findAll();
+    SchoolClass findById(Long id);
 }

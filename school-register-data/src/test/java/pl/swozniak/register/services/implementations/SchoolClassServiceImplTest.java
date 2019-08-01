@@ -70,29 +70,4 @@ class SchoolClassServiceImplTest {
         assertNull(schoolClass);
     }
 
-    @Test
-    void save() {
-        SchoolClass schoolClassToSave = SchoolClass.builder().id(ID).build();
-
-        when(schoolClassRepository.save(any())).thenReturn(returnedSchoolClass);
-
-        SchoolClass saved = service.save(schoolClassToSave);
-
-        assertNotNull(saved);
-        verify(schoolClassRepository).save(any());
-    }
-
-    @Test
-    void delete() {
-        service.delete(returnedSchoolClass);
-
-        verify(schoolClassRepository, times(1)).delete(any());
-    }
-
-    @Test
-    void deleteById() {
-        service.deleteById(ID);
-
-        verify(schoolClassRepository, times(1)).deleteById(anyLong());
-    }
 }

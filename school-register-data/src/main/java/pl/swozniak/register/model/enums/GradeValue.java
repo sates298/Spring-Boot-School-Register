@@ -23,4 +23,12 @@ public enum GradeValue {
         this.value = value;
         this.repr = repr;
     }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public String toString(){
+        return this.repr;
+    }
 }

@@ -23,6 +23,10 @@ public class Grade extends BaseEntity {
 //    @NotNull
 //    private Integer wage;
 
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
     @Column(name = "notes")
     @Size(max = 255)
     private String notes;
@@ -32,9 +36,10 @@ public class Grade extends BaseEntity {
     private Student student;
 
     @Builder
-    public Grade(Long id, @NotNull GradeValue grade, @Size(max = 255) String notes, Student student) {
+    public Grade(Long id, @NotNull GradeValue grade, Subject subject, @Size(max = 255) String notes, Student student) {
         super(id);
         this.grade = grade;
+        this.subject = subject;
         this.notes = notes;
         this.student = student;
     }

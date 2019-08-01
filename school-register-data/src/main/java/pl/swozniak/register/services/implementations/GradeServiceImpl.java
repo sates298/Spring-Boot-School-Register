@@ -5,8 +5,6 @@ import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
 
-import java.util.List;
-
 @Service
 public class GradeServiceImpl implements GradeService {
 
@@ -14,11 +12,6 @@ public class GradeServiceImpl implements GradeService {
 
     public GradeServiceImpl(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;
-    }
-
-    @Override
-    public List<Grade> findAll() {
-        return gradeRepository.findAll();
     }
 
     @Override
@@ -41,8 +34,4 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.deleteById(id);
     }
 
-    @Override
-    public List<Grade> findAllByStudentId(Long studentId) {
-        return gradeRepository.findAllByStudent_Id(studentId);
-    }
 }

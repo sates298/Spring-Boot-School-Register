@@ -14,17 +14,9 @@ import pl.swozniak.register.services.StudentService;
 public class StudentController {
 
     private final StudentService studentService;
-    private final GradeService gradeService;
 
-    public StudentController(StudentService studentService, GradeService gradeService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.gradeService = gradeService;
-    }
-
-    @GetMapping({"", "/", "/all"})
-    public String showAllStudents(Model model){
-        model.addAttribute("students", studentService.findAll());
-        return "student/allStudents";
     }
 
     @GetMapping("/{id}")

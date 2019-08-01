@@ -2,8 +2,8 @@ package pl.swozniak.register.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.swozniak.register.model.Grade;
+import pl.swozniak.register.model.Teacher;
 
 @Repository
-public interface GradeRepository extends JpaRepository<Grade, Long> {
+public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 }

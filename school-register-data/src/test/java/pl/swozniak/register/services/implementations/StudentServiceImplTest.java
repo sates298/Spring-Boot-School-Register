@@ -38,21 +38,6 @@ class StudentServiceImplTest {
         returnedStudent = Student.builder().id(ID).build();
     }
 
-    @Test
-    void findAll() {
-        List<Student> studentList = new ArrayList<>();
-        studentList.add(returnedStudent);
-        studentList.add(Student.builder().id(ID + 1).build());
-        studentList.add(Student.builder().id(ID + 2).build());
-
-
-        when(studentRepository.findAll()).thenReturn(studentList);
-
-        List<Student> students = service.findAll();
-
-        assertNotNull(students);
-        assertEquals(3, students.size());
-    }
 
     @Test
     void findById() {
@@ -80,19 +65,5 @@ class StudentServiceImplTest {
 
         assertNotNull(saved);
         verify(studentRepository).save(any());
-    }
-
-    @Test
-    void delete() {
-        service.delete(returnedStudent);
-
-        verify(studentRepository, times(1)).delete(any());
-    }
-
-    @Test
-    void deleteById() {
-        service.deleteById(ID);
-
-        verify(studentRepository, times(1)).deleteById(anyLong());
     }
 }
