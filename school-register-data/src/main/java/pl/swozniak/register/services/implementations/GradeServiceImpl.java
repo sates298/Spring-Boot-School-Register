@@ -1,6 +1,8 @@
 package pl.swozniak.register.services.implementations;
 
 import org.springframework.stereotype.Service;
+import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.mapper.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
@@ -9,19 +11,23 @@ import pl.swozniak.register.services.GradeService;
 public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
+    private final GradeMapper gradeMapper;
 
-    public GradeServiceImpl(GradeRepository gradeRepository) {
+    public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper) {
         this.gradeRepository = gradeRepository;
+        this.gradeMapper = gradeMapper;
     }
 
     @Override
-    public Grade findById(Long id) {
-        return gradeRepository.findById(id).orElse(null);
+    public GradeDTO findById(Long id) {
+        Grade found = gradeRepository.findById(id).orElse(null);
+        return gradeMapper.gradeToGradeDTO(found);
     }
 
     @Override
-    public Grade save(Grade object) {
-        return gradeRepository.save(object);
+    public GradeDTO save(Grade object) {
+        Grade saved =  gradeRepository.save(object);
+        return gradeMapper.gradeToGradeDTO(saved);
     }
 
     @Override
