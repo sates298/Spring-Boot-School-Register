@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -15,13 +16,13 @@ import javax.validation.constraints.Email;
 @Table(name = "teachers")
 public class Teacher extends Person {
 
-    @Email
-    @Column(name = "email")
-    private String email;
+    @Column(name = "telephone_nr")
+    @Size(min = 9, max = 15)
+    private String telephone;
 
     @Builder
-    public Teacher(Long id, String firstName, String lastName, @Email String email) {
+    public Teacher(Long id, String firstName, String lastName, @Size(min = 9, max = 15) String telephone) {
         super(id, firstName, lastName);
-        this.email = email;
+        this.telephone = telephone;
     }
 }
