@@ -7,6 +7,9 @@ import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.StudentService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -20,6 +23,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<StudentDTO> findAll() {
+        return studentRepository
+                .findAll()
+                .stream()
+                .map(studentMapper::studentToStudentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public StudentDTO findById(Long id) {
         Student found = studentRepository.findById(id).orElse(null);
         return studentMapper.studentToStudentDTO(found);
@@ -29,6 +41,16 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO save(Student object) {
         Student saved = studentRepository.save(object);
         return studentMapper.studentToStudentDTO(saved);
+    }
+
+    @Override
+    public void delete(Student object) {
+        studentRepository.delete(object);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        studentRepository.deleteById(id);
     }
 
 }

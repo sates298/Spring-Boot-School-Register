@@ -35,9 +35,20 @@ public class SchoolClassServiceImpl implements SchoolClassService {
         return schoolClassMapper.schoolClassToSchoolClassDTO(found);
     }
 
-    /*@Override
-    public SchoolClass save(SchoolClass object) {
-        return schoolClassRepository.save(object);
-    }*/
+    @Override
+    public SchoolClassDTO save(SchoolClass object) {
+        SchoolClass saved = schoolClassRepository.save(object);
+        return schoolClassMapper.schoolClassToSchoolClassDTO(saved);
+    }
+
+    @Override
+    public void delete(SchoolClass object) {
+        schoolClassRepository.delete(object);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        schoolClassRepository.deleteById(id);
+    }
 
 }

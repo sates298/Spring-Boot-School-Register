@@ -7,6 +7,9 @@ import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class GradeServiceImpl implements GradeService {
 
@@ -16,6 +19,15 @@ public class GradeServiceImpl implements GradeService {
     public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper) {
         this.gradeRepository = gradeRepository;
         this.gradeMapper = gradeMapper;
+    }
+
+    @Override
+    public List<GradeDTO> findAll() {
+        return gradeRepository
+                .findAll()
+                .stream()
+                .map(gradeMapper::gradeToGradeDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,10 +1,8 @@
 package pl.swozniak.register.services;
 
 import pl.swozniak.register.dtos.SchoolClassDTO;
+import pl.swozniak.register.model.SchoolClass;
 
-import java.util.List;
+public interface SchoolClassService extends CrudService<SchoolClass, SchoolClassDTO, Long> {
 
-public interface SchoolClassService{
-    List<SchoolClassDTO> findAll();
-    SchoolClassDTO findById(Long id);
 }

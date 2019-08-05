@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.StudentRepository;
 
@@ -43,7 +44,7 @@ class StudentServiceImplTest {
     void findById() {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(returnedStudent));
 
-        Student student = service.findById(ID);
+        StudentDTO student = service.findById(ID);
         assertNotNull(student);
     }
 
@@ -51,7 +52,7 @@ class StudentServiceImplTest {
     void findByIdNotFound(){
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Student student = service.findById(ID);
+        StudentDTO student = service.findById(ID);
         assertNull(student);
     }
 
@@ -61,7 +62,7 @@ class StudentServiceImplTest {
 
         when(studentRepository.save(any())).thenReturn(returnedStudent);
 
-        Student saved = service.save(studentToSave);
+        StudentDTO saved = service.save(studentToSave);
 
         assertNotNull(saved);
         verify(studentRepository).save(any());
