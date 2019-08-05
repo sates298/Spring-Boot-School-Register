@@ -5,9 +5,8 @@ import org.mapstruct.factory.Mappers;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.model.Parent;
 
-@Mapper
+@Mapper(componentModel = "spring",uses = EnumMapper.class)
 public interface ParentMapper {
-    ParentMapper INSTANCE = Mappers.getMapper(ParentMapper.class);
 
     ParentDTO parentToParentDTO(Parent parent);
 }
