@@ -28,7 +28,9 @@ public enum GradeValue {
         return value;
     }
 
+    @Override
     public String toString(){
         return this.repr;
     }
+
 }

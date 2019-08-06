@@ -1,6 +1,7 @@
 package pl.swozniak.register.model;
 
 import lombok.*;
+import pl.swozniak.register.model.builders.GradeBuilder;
 import pl.swozniak.register.model.enums.GradeValue;
 
 import javax.persistence.*;
@@ -8,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "grades")
@@ -35,6 +35,7 @@ public class Grade extends BaseEntity {
     @JoinColumn(name = "student_id")
     private Student student;
 
+
     @Builder
     public Grade(Long id, @NotNull GradeValue grade, Subject subject, @Size(max = 255) String notes, Student student) {
         super(id);
@@ -43,4 +44,8 @@ public class Grade extends BaseEntity {
         this.notes = notes;
         this.student = student;
     }
+
+//    public static GradeBuilder builder(){
+//        return new GradeBuilder();
+//    }
 }

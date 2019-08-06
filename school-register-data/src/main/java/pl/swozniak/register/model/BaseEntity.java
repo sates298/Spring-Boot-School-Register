@@ -9,10 +9,16 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
+    public BaseEntity() {
+    }
 }

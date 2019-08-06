@@ -3,6 +3,7 @@ package pl.swozniak.register.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.swozniak.register.model.builders.TeacherBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,9 +21,13 @@ public class Teacher extends Person {
     @Size(min = 9, max = 15)
     private String telephone;
 
-    @Builder
+//    @Builder
     public Teacher(Long id, String firstName, String lastName, @Size(min = 9, max = 15) String telephone) {
         super(id, firstName, lastName);
         this.telephone = telephone;
+    }
+
+    public static TeacherBuilder builder(){
+        return new TeacherBuilder();
     }
 }
