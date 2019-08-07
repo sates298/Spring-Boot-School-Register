@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.StudentService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @RestController
 @RequestMapping("student")
 public class StudentController {
@@ -19,11 +22,23 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDTO> showOneStudent(@PathVariable Long id){
+    public ResponseEntity<StudentDTO> getOneStudent(@PathVariable Long id){
         StudentDTO found = studentService.findById(id);
 
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/parent")
+    public  void getStudentParent(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        String redirect;
+        try {
+            Long parentId = studentService.findById(id).getParent().getId();
+            redirect = "/parent/" + parentId;
+        }catch(Exception e){
+            redirect =  "/student/" + id;
+        }
+
+        response.sendRedirect(redirect);
+     }
 }
