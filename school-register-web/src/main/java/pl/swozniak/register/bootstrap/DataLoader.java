@@ -3,6 +3,9 @@ package pl.swozniak.register.bootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.dtos.SchoolClassDTO;
+import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.model.*;
 import pl.swozniak.register.model.enums.ClassLevel;
 import pl.swozniak.register.model.enums.GradeValue;
@@ -30,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if(schoolClassService.findAll().size() == 0){
             log.info("----start of loading sample data----");
-//            loadData();
+            loadData();
             log.info("----end of loading sample data----");
         }
     }
@@ -47,15 +50,15 @@ public class DataLoader implements CommandLineRunner {
         Grade grade4 = crateGrade(2L, GradeValue.FOUR, 2, "exam4");
 
 
-//        classA = saveSchoolClass(classA);
-//        classB = saveSchoolClass(classB);
-//        log.info("save classes");
+        SchoolClassDTO classADto = saveSchoolClass(classA);
+        SchoolClassDTO classBDto = saveSchoolClass(classB);
+        log.info("save classes");
 
         student1.setSchoolClass(classA);
         student2.setSchoolClass(classA);
 
-        student1 = saveStudent(student1);
-        student2 = saveStudent(student2);
+        StudentDTO student1dto = saveStudent(student1);
+        StudentDTO student2dto = saveStudent(student2);
         log.info("save students");
 
         grade3.setStudent(student1);
@@ -94,15 +97,15 @@ public class DataLoader implements CommandLineRunner {
                 .build();
     }
 
-    private Student saveStudent(Student student){
+    private StudentDTO saveStudent(Student student){
         return studentService.save(student);
     }
 
-//    private SchoolClass saveSchoolClass(SchoolClass schoolClass){
-//        return schoolClassService.save(schoolClass);
-//    }
+    private SchoolClassDTO saveSchoolClass(SchoolClass schoolClass){
+        return schoolClassService.save(schoolClass);
+    }
 
-    private Grade saveGrade(Grade grade){
+    private GradeDTO saveGrade(Grade grade){
         return gradeService.save(grade);
     }
 
