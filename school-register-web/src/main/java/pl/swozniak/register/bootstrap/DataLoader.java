@@ -3,7 +3,6 @@ package pl.swozniak.register.bootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.SchoolClassDTO;
@@ -38,7 +37,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if(schoolClassService.findAll().size() == 0){
             log.info("----start of loading sample data----");
-//            loadData();
+            loadData();
             log.info("----end of loading sample data----");
         }
     }
@@ -59,8 +58,9 @@ public class DataLoader implements CommandLineRunner {
         Grade grade4 = crateGrade(2L, GradeValue.FOUR, 2, "exam4");
 
 
-        SchoolClassDTO classAdto = saveSchoolClass(classA);
-        SchoolClassDTO classBdto = saveSchoolClass(classB);
+
+        SchoolClassDTO classADto = saveSchoolClass(classA);
+        SchoolClassDTO classBDto = saveSchoolClass(classB);
         log.info("save classes");
 
         student1.setSchoolClass(classA);
@@ -69,9 +69,8 @@ public class DataLoader implements CommandLineRunner {
         student1.setParent(parent);
         student2.setParent(parent);
 
-        StudentDTO studentdto = saveStudent(student1);
+        StudentDTO student1dto = saveStudent(student1);
         StudentDTO student2dto = saveStudent(student2);
-
         log.info("save students");
 
         grade3.setStudent(student1);

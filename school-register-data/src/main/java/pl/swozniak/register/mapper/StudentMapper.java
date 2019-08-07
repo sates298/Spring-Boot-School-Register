@@ -6,9 +6,7 @@ import org.mapstruct.factory.Mappers;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.model.Student;
 
-@Mapper(componentModel = "spring",uses = EnumMapper.class)
+@Mapper(componentModel = "spring",uses = {ParentMapperImpl.class, SchoolClassMapperImpl.class})
 public interface StudentMapper {
-    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
-
     StudentDTO studentToStudentDTO(Student student);
 }

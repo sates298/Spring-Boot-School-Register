@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.swozniak.register.dtos.SchoolClassDTO;
+import pl.swozniak.register.mapper.SchoolClassMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.repositories.SchoolClassRepository;
 
@@ -28,14 +30,20 @@ class SchoolClassServiceImplTest {
     @Mock
     SchoolClassRepository schoolClassRepository;
 
+    @Mock
+    SchoolClassMapper mapper;
+
     @InjectMocks
     SchoolClassServiceImpl service;
 
     private SchoolClass returnedSchoolClass;
+    private SchoolClassDTO returnedDTO;
 
     @BeforeEach
     void setUp() {
         returnedSchoolClass = SchoolClass.builder().id(ID).build();
+        returnedDTO = new SchoolClassDTO();
+        returnedDTO.setId(ID);
     }
 
     @Test
@@ -47,8 +55,9 @@ class SchoolClassServiceImplTest {
 
 
         when(schoolClassRepository.findAll()).thenReturn(schoolClassList);
+        when(mapper.schoolClassToSchoolClassDTO(any())).thenReturn(returnedDTO);
 
-        List<SchoolClass> schoolClasses = service.findAll();
+        List<SchoolClassDTO> schoolClasses = service.findAll();
 
         assertNotNull(schoolClasses);
         assertEquals(3, schoolClasses.size());
@@ -57,17 +66,48 @@ class SchoolClassServiceImplTest {
     @Test
     void findById() {
         when(schoolClassRepository.findById(anyLong())).thenReturn(Optional.of(returnedSchoolClass));
+        when(mapper.schoolClassToSchoolClassDTO(any())).thenReturn(returnedDTO);
 
-        SchoolClass lesson = service.findById(ID);
+        SchoolClassDTO lesson = service.findById(ID);
         assertNotNull(lesson);
     }
 
     @Test
     void findByIdNotFound(){
         when(schoolClassRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(mapper.schoolClassToSchoolClassDTO(any())).thenReturn(null);
 
-        SchoolClass schoolClass = service.findById(ID);
+        SchoolClassDTO schoolClass = service.findById(ID);
         assertNull(schoolClass);
+    }
+
+
+
+    @Test
+    void save() {
+        SchoolClass schoolClassToSave = SchoolClass.builder().id(ID).build();
+
+        when(schoolClassRepository.save(any())).thenReturn(returnedSchoolClass);
+        when(mapper.schoolClassToSchoolClassDTO(any())).thenReturn(returnedDTO);
+
+        SchoolClassDTO saved = service.save(schoolClassToSave);
+
+        assertNotNull(saved);
+        verify(schoolClassRepository).save(any());
+    }
+
+    @Test
+    void delete() {
+        service.delete(returnedSchoolClass);
+
+        verify(schoolClassRepository, times(1)).delete(any());
+    }
+
+    @Test
+    void deleteById() {
+        service.deleteById(ID);
+
+        verify(schoolClassRepository, times(1)).deleteById(anyLong());
     }
 
 }
