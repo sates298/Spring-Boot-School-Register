@@ -8,20 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.services.GradeService;
+import pl.swozniak.register.services.StudentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/student/{student_id}/grades")
+@RequestMapping("student/{student_id}/grades")
 public class GradeController {
 
     private final GradeService gradeService;
 
-    public GradeController(GradeService gradeService) {
+
+    public GradeController(GradeService gradeService, StudentService studentService) {
         this.gradeService = gradeService;
     }
-
     @GetMapping({"", "/", "/all"})
     public ResponseEntity<List<GradeDTO>> getAllGrades(@PathVariable Long student_id){
         List<GradeDTO> grades = gradeService.findAll()
@@ -40,5 +41,4 @@ public class GradeController {
         return new ResponseEntity<>(gradeService.findById(grade_id), HttpStatus.OK);
     }
 
-    
 }

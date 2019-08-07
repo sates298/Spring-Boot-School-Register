@@ -57,7 +57,7 @@ public class DataLoader implements CommandLineRunner {
         student1.setSchoolClass(classA);
         student2.setSchoolClass(classA);
 
-        StudentDTO student1dto = saveStudent(student1);
+        StudentDTO studentdto = saveStudent(student1);
         StudentDTO student2dto = saveStudent(student2);
         log.info("save students");
 

@@ -19,6 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<StudentDTO> showOneStudent(@PathVariable Long id){
         StudentDTO found = studentService.findById(id);
