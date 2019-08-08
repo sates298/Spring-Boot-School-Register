@@ -12,7 +12,7 @@ public interface GradeMapper {
 
     @Mappings({
             @Mapping(target = "student.grades", ignore = true),
-            @Mapping(target = "student.schoolClass", ignore = true)
+            @Mapping(target = "student.schoolClass", ignore = true),
     })
     GradeDTO gradeToGradeDTO(Grade grade);
 }
