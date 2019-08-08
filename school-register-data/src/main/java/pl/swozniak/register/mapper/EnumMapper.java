@@ -1,8 +1,9 @@
 package pl.swozniak.register.mapper;
 
 import org.mapstruct.MapperConfig;
+import org.springframework.stereotype.Component;
 
-@MapperConfig
+@MapperConfig(componentModel = "spring")
 public class EnumMapper {
     protected String mapEnum(Enum<?> e) {
         if(e == null) return null;

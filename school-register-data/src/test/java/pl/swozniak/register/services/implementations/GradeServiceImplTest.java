@@ -3,17 +3,20 @@ package pl.swozniak.register.services.implementations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.mapper.EnumMapper;
+import pl.swozniak.register.mapper.GradeMapper;
 import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.GradeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,29 +33,54 @@ class GradeServiceImplTest {
     @Mock
     GradeRepository gradeRepository;
 
+    @Mock
+    GradeMapper mapper;
+
     @InjectMocks
     GradeServiceImpl service;
 
-    private Grade returnGrade;
+    private Grade returnedGrade;
+    private GradeDTO returnedDTO;
 
     @BeforeEach
     void setUp() {
-        returnGrade = Grade.builder().id(ID).build();
+        returnedGrade = Grade.builder().id(ID).build();
+        returnedDTO = new GradeDTO();
+        returnedDTO.setId(ID);
+    }
+
+
+    @Test
+    void findAll(){
+        List<Grade> returnedGrades = new ArrayList<>();
+        returnedGrades.add(returnedGrade);
+        returnedGrades.add(Grade.builder().id(ID +1).build());
+
+        when(gradeRepository.findAll()).thenReturn(returnedGrades);
+        when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
+
+
+        List<GradeDTO> grades = service.findAll();
+
+        assertNotNull(grades);
+        assertEquals(2, grades.size());
     }
 
     @Test
     void findById() {
-        when(gradeRepository.findById(anyLong())).thenReturn(Optional.of(returnGrade));
+        when(gradeRepository.findById(anyLong())).thenReturn(Optional.of(returnedGrade));
+        when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
 
-        Grade grade = service.findById(ID);
+        GradeDTO grade = service.findById(ID);
         assertNotNull(grade);
     }
 
     @Test
     void findByIdNotFound(){
         when(gradeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(mapper.gradeToGradeDTO(any())).thenReturn(null);
 
-        Grade grade = service.findById(ID);
+        GradeDTO grade = service.findById(ID);
         assertNull(grade);
     }
 
@@ -60,9 +88,11 @@ class GradeServiceImplTest {
     void save() {
         Grade gradeToSave = Grade.builder().id(ID).build();
 
-        when(gradeRepository.save(any())).thenReturn(returnGrade);
+        when(gradeRepository.save(any())).thenReturn(returnedGrade);
+        when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
 
-        Grade saved = service.save(gradeToSave);
+
+        GradeDTO saved = service.save(gradeToSave);
 
         assertNotNull(saved);
         verify(gradeRepository).save(any());
@@ -70,7 +100,7 @@ class GradeServiceImplTest {
 
     @Test
     void delete() {
-        service.delete(returnGrade);
+        service.delete(returnedGrade);
 
         verify(gradeRepository, times(1)).delete(any());
     }

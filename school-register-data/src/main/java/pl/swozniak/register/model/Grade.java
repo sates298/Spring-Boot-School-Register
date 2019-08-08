@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "grades")
 public class Grade extends BaseEntity {
