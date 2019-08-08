@@ -6,6 +6,7 @@ import pl.swozniak.register.mapper.SubjectMapper;
 import pl.swozniak.register.model.Subject;
 import pl.swozniak.register.repositories.SubjectRepository;
 import pl.swozniak.register.services.SubjectService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDTO findById(Long id) {
-        Subject found = subjectRepository.findById(id).orElse(null);
+        Subject found = subjectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return subjectMapper.subjectToSubjectDTO(found);
     }
 
