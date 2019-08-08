@@ -6,6 +6,5 @@ import pl.swozniak.register.model.Parent;
 
 @Mapper(componentModel = "spring")
 public interface ParentMapper {
-
     ParentDTO parentToParentDTO(Parent parent);
 }
