@@ -4,9 +4,15 @@ import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.mapper.GradeMapper;
 import pl.swozniak.register.model.Grade;
+import pl.swozniak.register.model.enums.GradeValue;
+import pl.swozniak.register.model.enums.SubjectName;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.services.gradestrategy.NewGradeBadBehavior;
+import pl.swozniak.register.services.gradestrategy.NewGradeRecorder;
+import pl.swozniak.register.services.gradestrategy.NewGradeStrategy;
+import pl.swozniak.register.services.gradestrategy.NewPositiveGrade;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +22,7 @@ public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
     private final GradeMapper gradeMapper;
+    private NewGradeRecorder newGradeRecorder;
 
     public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper) {
         this.gradeRepository = gradeRepository;
@@ -39,8 +46,20 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public GradeDTO save(Grade object) {
-        Grade saved =  gradeRepository.save(object);
-        return gradeMapper.gradeToGradeDTO(saved);
+        Grade saved = gradeRepository.save(object);
+        GradeDTO mapped = gradeMapper.gradeToGradeDTO(saved);
+
+        newGradeRecorder = new NewGradeRecorder(
+                mapped
+                        .getSubject()
+                        .getName()
+                        .equals(SubjectName.BEHAVIOR.toString())
+                        && mapped
+                        .getGrade()
+                        .equals(GradeValue.ONE.toString())
+                        ? new NewGradeBadBehavior() : new NewPositiveGrade());
+
+        return newGradeRecorder.checkNewGrade(mapped);
     }
 
     @Override
