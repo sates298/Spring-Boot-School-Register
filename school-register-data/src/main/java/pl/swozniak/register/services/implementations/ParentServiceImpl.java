@@ -6,6 +6,7 @@ import pl.swozniak.register.mapper.ParentMapper;
 import pl.swozniak.register.model.Parent;
 import pl.swozniak.register.repositories.ParentRepository;
 import pl.swozniak.register.services.ParentService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class ParentServiceImpl implements ParentService {
 
     @Override
     public ParentDTO findById(Long id) {
-        Parent found = parentRepository.findById(id).orElse(null);
+        Parent found = parentRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return parentMapper.parentToParentDTO(found);
     }
 

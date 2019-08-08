@@ -6,6 +6,7 @@ import pl.swozniak.register.mapper.SchoolClassMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.repositories.SchoolClassRepository;
 import pl.swozniak.register.services.SchoolClassService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     public SchoolClassDTO findById(Long id) {
-        SchoolClass found = schoolClassRepository.findById(id).orElse(null);
+        SchoolClass found = schoolClassRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return schoolClassMapper.schoolClassToSchoolClassDTO(found);
     }
 

@@ -6,6 +6,7 @@ import pl.swozniak.register.mapper.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public GradeDTO findById(Long id) {
-        Grade found = gradeRepository.findById(id).orElse(null);
+        Grade found = gradeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return gradeMapper.gradeToGradeDTO(found);
     }
 

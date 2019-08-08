@@ -6,8 +6,10 @@ import pl.swozniak.register.mapper.TeacherMapper;
 import pl.swozniak.register.model.Teacher;
 import pl.swozniak.register.repositories.TeacherRepository;
 import pl.swozniak.register.services.TeacherService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +35,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDTO findById(Long id) {
-        Teacher found = teacherRepository.findById(id).orElse(null);
+        Teacher found = teacherRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return teacherMapper.teacherToTeacherDTO(found);
     }
 
