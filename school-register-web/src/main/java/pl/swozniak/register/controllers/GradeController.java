@@ -8,28 +8,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.services.GradeService;
+import pl.swozniak.register.services.StudentService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("student/{student_id}/grades")
 public class GradeController {
 
     private final GradeService gradeService;
+    private final StudentService studentService;
 
-    public GradeController(GradeService gradeService) {
+    public GradeController(GradeService gradeService, StudentService studentService) {
         this.gradeService = gradeService;
+        this.studentService = studentService;
     }
+
     @GetMapping({"", "/", "/all"})
     public ResponseEntity<List<GradeDTO>> getAllGrades(@PathVariable Long student_id){
-        List<GradeDTO> grades = gradeService.findAll()
-                .stream()
-                .filter(gradeDTO -> gradeDTO
-                                .getStudent()
-                                .getId()
-                                .equals(student_id))
-                .collect(Collectors.toList());
+        List<GradeDTO> grades = studentService.findById(student_id).getGrades();
 
         return new ResponseEntity<>(grades, HttpStatus.OK);
     }

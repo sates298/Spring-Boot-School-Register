@@ -9,21 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.SchoolClassService;
-import pl.swozniak.register.services.StudentService;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("class")
 public class SchoolClassController {
 
     private final SchoolClassService schoolClassService;
-    private final StudentService studentService;
 
-    public SchoolClassController(SchoolClassService schoolClassService, StudentService studentService) {
+    public SchoolClassController(SchoolClassService schoolClassService) {
         this.schoolClassService = schoolClassService;
-        this.studentService = studentService;
     }
 
     @GetMapping({"/all", "", "/"})
@@ -33,15 +30,6 @@ public class SchoolClassController {
 
     @GetMapping("/{class_id}")
     public ResponseEntity<List<StudentDTO>> getOneClass(@PathVariable Long class_id){
-        return new ResponseEntity<>
-                (studentService
-                        .findAll()
-                        .stream()
-                        .filter(student -> student
-                                .getSchoolClass()
-                                .getId()
-                                .equals(class_id))
-                        .collect(Collectors.toList()),
-                HttpStatus.OK);
+        return new ResponseEntity<>(schoolClassService.findById(class_id).getStudents(), HttpStatus.OK);
     }
 }

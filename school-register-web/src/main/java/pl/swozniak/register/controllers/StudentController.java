@@ -23,22 +23,18 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDTO> getOneStudent(@PathVariable Long id){
+    public ResponseEntity<StudentDTO> showOneStudent(@PathVariable Long id) {
         StudentDTO found = studentService.findById(id);
 
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/parent")
-    public  void getStudentParent(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        String redirect;
-        try {
-            Long parentId = studentService.findById(id).getParent().getId();
-            redirect = "/parent/" + parentId;
-        }catch(Exception e){
-            redirect =  "/student/" + id;
-        }
+    public void getStudentParent(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        Long parentId = studentService.findById(id).getParent().getId();
+        String redirect = "/parent/" + parentId;
 
         response.sendRedirect(redirect);
-     }
+    }
+
 }
