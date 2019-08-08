@@ -6,6 +6,7 @@ import pl.swozniak.register.mapper.StudentMapper;
 import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.StudentService;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO findById(Long id) {
-        Student found = studentRepository.findById(id).orElse(null);
+        Student found = studentRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         return studentMapper.studentToStudentDTO(found);
     }
 
