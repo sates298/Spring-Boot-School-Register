@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class SchoolClassDTO {
+    private Long id;
     private List<StudentDTO> students;
     private Character character;
     private String level;
