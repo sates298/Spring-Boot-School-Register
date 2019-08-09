@@ -15,6 +15,7 @@ import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 
 import java.util.ArrayList;
@@ -83,10 +84,9 @@ class GradeServiceImplTest {
     @Test
     void findByIdNotFound(){
         when(gradeRepository.findById(anyLong())).thenReturn(Optional.empty());
-        when(mapper.gradeToGradeDTO(any())).thenReturn(null);
 
-        GradeDTO grade = service.findById(ID);
-        assertNull(grade);
+        assertThrows(ResourceNotFoundException.class, () ->
+                service.findById(ID));
     }
 
     @Test

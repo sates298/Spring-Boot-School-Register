@@ -10,6 +10,7 @@ import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.mappers.SchoolClassMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.repositories.SchoolClassRepository;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +76,9 @@ class SchoolClassServiceImplTest {
     @Test
     void findByIdNotFound(){
         when(schoolClassRepository.findById(anyLong())).thenReturn(Optional.empty());
-        when(mapper.schoolClassToSchoolClassDTO(any())).thenReturn(null);
 
-        SchoolClassDTO schoolClass = service.findById(ID);
-        assertNull(schoolClass);
+        assertThrows(ResourceNotFoundException.class, () ->
+                service.findById(ID));
     }
 
 

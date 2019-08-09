@@ -13,6 +13,7 @@ import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.mappers.ParentMapper;
 import pl.swozniak.register.model.Parent;
 import pl.swozniak.register.repositories.ParentRepository;
+import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +75,9 @@ class ParentServiceImplTest {
     @Test
     void findByIdNotFound(){
         when(parentRepository.findById(anyLong())).thenReturn(Optional.empty());
-        when(mapper.parentToParentDTO(any())).thenReturn(null);
 
-        ParentDTO parent = service.findById(ID);
-        assertNull(parent);
+        assertThrows(ResourceNotFoundException.class, () ->
+                service.findById(ID));
     }
 
     @Test
