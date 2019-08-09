@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
-import pl.swozniak.register.model.Student;
 import pl.swozniak.register.services.ParentService;
 
 import java.util.List;
