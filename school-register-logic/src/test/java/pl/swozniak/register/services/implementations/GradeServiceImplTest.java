@@ -16,6 +16,7 @@ import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.services.gradestrategy.NewGradeProcessor;
 
 
 import java.util.ArrayList;
@@ -41,6 +42,9 @@ class GradeServiceImplTest {
 
     @Mock
     GradeMapper mapper;
+
+    @Mock
+    NewGradeProcessor newGradeProcessor;
 
     @InjectMocks
     GradeServiceImpl service;
@@ -95,6 +99,7 @@ class GradeServiceImplTest {
 
         when(gradeRepository.save(any())).thenReturn(returnedGrade);
         when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
+        when(newGradeProcessor.processNewGrade(any())).thenReturn(returnedDTO);
 
         GradeDTO saved = service.save(gradeToSave);
 
