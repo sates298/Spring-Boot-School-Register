@@ -18,14 +18,14 @@ public class ProcessNewGradeStrategyFactory {
         this.positiveGradeStrategy = positiveGradeStrategy;
     }
 
-    ProcessNewGradeStrategy getRightStrategy(GradeDTO grade){
-        return grade
-                .getSubject()
-                .getName()
-                .equals(SubjectName.BEHAVIOR.toString())
-                && grade
-                .getGrade()
-                .equals(GradeValue.ONE.toString())
+    ProcessNewGradeStrategy getRightStrategy(GradeDTO grade) {
+        return SubjectName.BEHAVIOR.toString()
+                .equals(grade
+                        .getSubject()
+                        .getName())
+                && GradeValue.ONE.toString()
+                .equals(grade
+                        .getGrade())
                 ? badBehaviorStrategy : positiveGradeStrategy;
     }
 }
