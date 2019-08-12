@@ -6,6 +6,7 @@
     <modules>
         <module>school-register-data</module>
         <module>school-register-web</module>
+        <module>school-register-logic</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

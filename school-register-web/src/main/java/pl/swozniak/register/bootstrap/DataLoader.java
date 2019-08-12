@@ -10,6 +10,7 @@ import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.model.*;
 import pl.swozniak.register.model.enums.ClassLevel;
 import pl.swozniak.register.model.enums.GradeValue;
+import pl.swozniak.register.model.enums.SubjectName;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.ParentService;
 import pl.swozniak.register.services.SchoolClassService;
@@ -54,8 +55,8 @@ public class DataLoader implements CommandLineRunner {
         SchoolClass classB = createSchoolClass('B', 2L, ClassLevel.THIRD);
 
 
-        Grade grade3 = crateGrade(1L, GradeValue.THREE, 1, "exam3");
-        Grade grade4 = crateGrade(2L, GradeValue.FOUR, 2, "exam4");
+        Grade grade3 = crateGrade(1L, GradeValue.THREE, SubjectName.BIOLOGY, "exam3");
+        Grade grade4 = crateGrade(2L, GradeValue.FOUR, SubjectName.IT, "exam4");
 
 
 
@@ -110,11 +111,11 @@ public class DataLoader implements CommandLineRunner {
                 .build();
     }
 
-    private Grade crateGrade(long id, GradeValue grade, int wage, String notes) {
+    private Grade crateGrade(long id, GradeValue grade, SubjectName subject, String notes) {
         return Grade.builder()
                 .id(id)
                 .grade(grade)
-//                .wage(wage)
+                .subject(Subject.builder().name(subject).build())
                 .notes(notes)
                 .build();
     }
