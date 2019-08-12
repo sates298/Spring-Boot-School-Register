@@ -96,7 +96,6 @@ class GradeServiceImplTest {
         when(gradeRepository.save(any())).thenReturn(returnedGrade);
         when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
 
-
         GradeDTO saved = service.save(gradeToSave);
 
         assertNotNull(saved);

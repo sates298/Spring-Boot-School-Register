@@ -9,10 +9,9 @@ import pl.swozniak.register.model.enums.SubjectName;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.services.gradestrategy.NewGradeBadBehavior;
-import pl.swozniak.register.services.gradestrategy.NewGradeRecorder;
-import pl.swozniak.register.services.gradestrategy.NewGradeStrategy;
-import pl.swozniak.register.services.gradestrategy.NewPositiveGrade;
+import pl.swozniak.register.services.gradestrategy.ProcessNewGradeBadBehavior;
+import pl.swozniak.register.services.gradestrategy.NewGradeProcessor;
+import pl.swozniak.register.services.gradestrategy.ProcessNewPositiveGrade;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +21,12 @@ public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
     private final GradeMapper gradeMapper;
-    private NewGradeRecorder newGradeRecorder;
+    private final NewGradeProcessor newGradeProcessor;
 
-    public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper) {
+    public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper, NewGradeProcessor newGradeProcessor) {
         this.gradeRepository = gradeRepository;
         this.gradeMapper = gradeMapper;
+        this.newGradeProcessor = newGradeProcessor;
     }
 
     @Override
@@ -49,17 +49,7 @@ public class GradeServiceImpl implements GradeService {
         Grade saved = gradeRepository.save(object);
         GradeDTO mapped = gradeMapper.gradeToGradeDTO(saved);
 
-        newGradeRecorder = new NewGradeRecorder(
-                mapped
-                        .getSubject()
-                        .getName()
-                        .equals(SubjectName.BEHAVIOR.toString())
-                        && mapped
-                        .getGrade()
-                        .equals(GradeValue.ONE.toString())
-                        ? new NewGradeBadBehavior() : new NewPositiveGrade());
-
-        return newGradeRecorder.checkNewGrade(mapped);
+        return newGradeProcessor.processNewGrade(mapped);
     }
 
     @Override
