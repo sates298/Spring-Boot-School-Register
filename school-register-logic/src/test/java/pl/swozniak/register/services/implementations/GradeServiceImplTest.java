@@ -16,7 +16,7 @@ import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.services.gradestrategy.NewGradeProcessor;
+import pl.swozniak.register.gradestrategy.NewGradeProcessor;
 
 
 import java.util.ArrayList;

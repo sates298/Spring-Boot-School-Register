@@ -1,4 +1,4 @@
-package pl.swozniak.register.services.gradestrategy;
+package pl.swozniak.register.gradestrategy;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

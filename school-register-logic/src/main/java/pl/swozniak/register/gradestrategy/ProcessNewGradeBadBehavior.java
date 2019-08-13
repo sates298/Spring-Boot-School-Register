@@ -1,6 +1,5 @@
-package pl.swozniak.register.services.gradestrategy;
+package pl.swozniak.register.gradestrategy;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

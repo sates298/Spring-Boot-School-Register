@@ -1,4 +1,4 @@
-package pl.swozniak.register.services.gradestrategy;
+package pl.swozniak.register.gradestrategy;
 
 import org.springframework.stereotype.Component;
 import pl.swozniak.register.dtos.ParentDTO;

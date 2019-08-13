@@ -54,4 +54,20 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
+    @Override
+    public StudentDTO patch(Long id, Student student) throws ResourceNotFoundException{
+        Student found = studentRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+
+        if(!found.getSchoolClass().getId()
+                .equals(student.getSchoolClass().getId())){
+
+            found.setSchoolClass(student.getSchoolClass());
+            Student saved = studentRepository.save(found);
+
+            return studentMapper.studentToStudentDTO(saved);
+        }
+
+        return studentMapper.studentToStudentDTO(found);
+    }
+
 }

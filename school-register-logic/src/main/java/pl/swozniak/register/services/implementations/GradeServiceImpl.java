@@ -4,14 +4,10 @@ import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.enums.GradeValue;
-import pl.swozniak.register.model.enums.SubjectName;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.services.gradestrategy.ProcessNewGradeBadBehavior;
-import pl.swozniak.register.services.gradestrategy.NewGradeProcessor;
-import pl.swozniak.register.services.gradestrategy.ProcessNewPositiveGrade;
+import pl.swozniak.register.gradestrategy.NewGradeProcessor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,4 +58,12 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.deleteById(id);
     }
 
+    @Override
+    public GradeDTO put(Long id, Grade grade) {
+        GradeDTO dto = gradeMapper.gradeToGradeDTO(grade);
+        dto.setId(id);
+        Grade transfer = gradeMapper.gradeDTOToGrade(dto);
+
+        return save(transfer);
+    }
 }
