@@ -7,7 +7,7 @@ import pl.swozniak.register.dtos.ParentDTO;
 public class BadBehaviorMailMessageGenerator {
 
     public String generateMessage(ParentDTO parent, String studentFirstName, String notes){
-        return notes.isBlank()
+        return notes == null || notes.isBlank()
                 ? generateMessageWithoutNotes(parent, studentFirstName)
                 : generateMessageWithNotes(parent, studentFirstName, notes);
     }

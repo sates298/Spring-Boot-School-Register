@@ -52,13 +52,13 @@ public class GradeServiceImpl implements GradeService {
             grade.setStudent(owner);
         }
 
-        Grade saved = gradeRepository.save(grade);
-        return save(saved);
+        return save(grade);
     }
 
     @Override
     public GradeDTO save(Grade object) {
-        GradeDTO mapped = gradeMapper.gradeToGradeDTO(object);
+        Grade saved = gradeRepository.save(object);
+        GradeDTO mapped = gradeMapper.gradeToGradeDTO(saved);
 
         return newGradeProcessor.processNewGrade(mapped);
     }
