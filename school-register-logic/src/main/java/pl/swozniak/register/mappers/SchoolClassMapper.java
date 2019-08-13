@@ -7,4 +7,6 @@ import pl.swozniak.register.model.SchoolClass;
 @Mapper(componentModel = "spring",uses = {EnumMapper.class, StudentMapper.class})
 public interface SchoolClassMapper {
     SchoolClassDTO schoolClassToSchoolClassDTO(SchoolClass schoolClass);
+
+    SchoolClass schoolClassDTOToSchoolClass(SchoolClassDTO schoolClassDTO);
 }
