@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
+import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.GradeRepository;
+import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 import pl.swozniak.register.gradestrategy.NewGradeProcessor;
@@ -16,11 +18,14 @@ import java.util.stream.Collectors;
 public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
+    private final StudentRepository studentRepository;
     private final GradeMapper gradeMapper;
     private final NewGradeProcessor newGradeProcessor;
 
-    public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper, NewGradeProcessor newGradeProcessor) {
+    public GradeServiceImpl(GradeRepository gradeRepository, StudentRepository studentRepository,
+                            GradeMapper gradeMapper, NewGradeProcessor newGradeProcessor) {
         this.gradeRepository = gradeRepository;
+        this.studentRepository = studentRepository;
         this.gradeMapper = gradeMapper;
         this.newGradeProcessor = newGradeProcessor;
     }
@@ -41,9 +46,19 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
+    public GradeDTO saveGrade(Grade grade, Long studentId) {
+        Student owner = studentRepository.findById(studentId).orElseThrow(ResourceNotFoundException::new);
+        if(grade.getStudent() == null){
+            grade.setStudent(owner);
+        }
+
+        Grade saved = gradeRepository.save(grade);
+        return save(saved);
+    }
+
+    @Override
     public GradeDTO save(Grade object) {
-        Grade saved = gradeRepository.save(object);
-        GradeDTO mapped = gradeMapper.gradeToGradeDTO(saved);
+        GradeDTO mapped = gradeMapper.gradeToGradeDTO(object);
 
         return newGradeProcessor.processNewGrade(mapped);
     }
