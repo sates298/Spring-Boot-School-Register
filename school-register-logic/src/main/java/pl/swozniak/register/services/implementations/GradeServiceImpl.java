@@ -9,7 +9,7 @@ import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.gradestrategy.NewGradeProcessor;
+import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
 
 import java.util.List;
 import java.util.stream.Collectors;

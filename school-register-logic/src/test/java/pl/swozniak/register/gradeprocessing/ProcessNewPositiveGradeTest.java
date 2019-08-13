@@ -1,9 +1,9 @@
-package pl.swozniak.register.gradestrategy;
+package pl.swozniak.register.gradeprocessing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.gradeprocessing.ProcessNewPositiveGrade;
 
 import static org.junit.jupiter.api.Assertions.*;
 

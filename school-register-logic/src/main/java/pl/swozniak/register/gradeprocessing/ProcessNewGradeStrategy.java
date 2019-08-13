@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradestrategy;
+package pl.swozniak.register.gradeprocessing;
 
 import pl.swozniak.register.dtos.GradeDTO;
 

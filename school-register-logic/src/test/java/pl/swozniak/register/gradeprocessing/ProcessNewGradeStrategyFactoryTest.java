@@ -1,13 +1,13 @@
-package pl.swozniak.register.gradestrategy;
+package pl.swozniak.register.gradeprocessing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.SubjectDTO;
+import pl.swozniak.register.gradeprocessing.ProcessNewGradeBadBehavior;
+import pl.swozniak.register.gradeprocessing.ProcessNewGradeStrategy;
+import pl.swozniak.register.gradeprocessing.ProcessNewGradeStrategyFactory;
+import pl.swozniak.register.gradeprocessing.ProcessNewPositiveGrade;
 import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.model.enums.SubjectName;
 
