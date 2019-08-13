@@ -36,16 +36,18 @@ public class GradeController {
 
     @PostMapping("/new")
     public ResponseEntity<GradeDTO> addGrade(@RequestBody Grade grade, @PathVariable Long student_id){
-        //todo modelDTOtoModel
-//        if(grade.getStudent() == null) grade.setStudent(studentService.findById(student_id));
-
-        return new ResponseEntity<>(gradeService.save(grade), HttpStatus.CREATED);
+        return new ResponseEntity<>(gradeService.saveGrade(grade, student_id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{grade_id}")
     public ResponseEntity<Void> deleteGrade(@PathVariable Long grade_id){
         gradeService.deleteById(grade_id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{grade_id}/resit")
+    public ResponseEntity<GradeDTO> putGrade(@PathVariable Long grade_id, @RequestBody Grade grade){
+        return new ResponseEntity<>(gradeService.put(grade_id, grade), HttpStatus.OK);
     }
 
 

@@ -2,12 +2,10 @@ package pl.swozniak.register.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
+import pl.swozniak.register.model.Student;
 import pl.swozniak.register.services.StudentService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
@@ -39,6 +37,16 @@ public class StudentController {
         String redirect = "/parent/" + parent.getId();
 
         response.sendRedirect(redirect);
+    }
+
+    @PostMapping({"/new", "/add"})
+    public ResponseEntity<StudentDTO> addStudent(@RequestBody Student student){
+        return new ResponseEntity<>(studentService.save(student), HttpStatus.CREATED);
+    }
+
+    @PatchMapping({"/{id}", "/{id}/update"})
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable Long id, @RequestBody Student student){
+        return new ResponseEntity<>(studentService.patch(id, student), HttpStatus.OK);
     }
 
 }
