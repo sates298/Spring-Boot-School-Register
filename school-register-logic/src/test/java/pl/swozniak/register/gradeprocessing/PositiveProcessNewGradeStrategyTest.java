@@ -3,20 +3,19 @@ package pl.swozniak.register.gradeprocessing;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.swozniak.register.dtos.GradeDTO;
-import pl.swozniak.register.gradeprocessing.ProcessNewPositiveGrade;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProcessNewPositiveGradeTest {
+class PositiveProcessNewGradeStrategyTest {
 
     public static final long ID = 1L;
-    ProcessNewPositiveGrade positiveGradeStrategy;
+    PositiveProcessNewGradeStrategy positiveGradeStrategy;
 
     GradeDTO grade;
 
     @BeforeEach
     void setUp() {
-        positiveGradeStrategy = new ProcessNewPositiveGrade();
+        positiveGradeStrategy = new PositiveProcessNewGradeStrategy();
         grade = new GradeDTO();
         grade.setId(ID);
     }

@@ -11,7 +11,7 @@ import pl.swozniak.register.gradeprocessing.BadBehaviorMailMessageGenerator;
 
 
 @ExtendWith(MockitoExtension.class)
-class ProcessNewGradeBadBehaviorTest {
+class BadBehaviorProcessNewGradeStrategyTest {
 
     @Mock
     JavaMailSender mailSender;

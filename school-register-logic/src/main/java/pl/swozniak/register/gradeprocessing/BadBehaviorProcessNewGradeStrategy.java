@@ -10,7 +10,7 @@ import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mail.MailSender;
 
 @Component
-public class ProcessNewGradeBadBehavior implements ProcessNewGradeStrategy {
+public class BadBehaviorProcessNewGradeStrategy implements ProcessNewGradeStrategy {
 
     public static final String MAIL_SUBJECT = "Bad Behavior";
 
@@ -18,8 +18,8 @@ public class ProcessNewGradeBadBehavior implements ProcessNewGradeStrategy {
     private final BadBehaviorMailMessageGenerator messageGenerator;
 
 
-    public ProcessNewGradeBadBehavior(MailSender mailSender,
-                                      BadBehaviorMailMessageGenerator messageGenerator) {
+    public BadBehaviorProcessNewGradeStrategy(MailSender mailSender,
+                                              BadBehaviorMailMessageGenerator messageGenerator) {
         this.mailSender = mailSender;
         this.messageGenerator = messageGenerator;
     }
