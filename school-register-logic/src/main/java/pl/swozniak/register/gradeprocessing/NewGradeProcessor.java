@@ -1,4 +1,4 @@
-package pl.swozniak.register.services.gradestrategy;
+package pl.swozniak.register.gradeprocessing;
 
 
 import org.springframework.stereotype.Component;

@@ -38,7 +38,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if(schoolClassService.findAll().size() == 0){
             log.info("----start of loading sample data----");
-            loadData();
+//            loadData();
             log.info("----end of loading sample data----");
         }
     }
