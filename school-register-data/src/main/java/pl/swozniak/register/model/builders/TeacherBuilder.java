@@ -1,5 +1,6 @@
 package pl.swozniak.register.model.builders;
 
+import pl.swozniak.register.model.Subject;
 import pl.swozniak.register.model.Teacher;
 
 public class TeacherBuilder {
@@ -7,6 +8,7 @@ public class TeacherBuilder {
     private String firstName;
     private String lastName;
     private String telephone;
+    private Subject subject;
 
     public TeacherBuilder id(Long id) {
         this.id = id;
@@ -28,7 +30,12 @@ public class TeacherBuilder {
         return this;
     }
 
+    public TeacherBuilder subject(Subject subject) {
+        this.subject = subject;
+        return this;
+    }
+
     public Teacher build(){
-        return new Teacher(id, firstName, lastName, telephone);
+        return new Teacher(id, firstName, lastName, telephone, subject);
     }
 }

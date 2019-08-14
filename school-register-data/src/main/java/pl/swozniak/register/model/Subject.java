@@ -8,6 +8,7 @@ import pl.swozniak.register.model.builders.SubjectBuilder;
 import pl.swozniak.register.model.enums.SubjectName;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,10 +21,14 @@ public class Subject extends BaseEntity {
     @Enumerated
     private SubjectName name;
 
+    @OneToMany(mappedBy = "subject")
+    private List<Teacher> teachers;
+
 //    @Builder
-    public Subject(Long id, SubjectName name) {
+    public Subject(Long id, SubjectName name, List<Teacher> teachers) {
         super(id);
         this.name = name;
+        this.teachers = teachers;
     }
 
     public static SubjectBuilder builder(){

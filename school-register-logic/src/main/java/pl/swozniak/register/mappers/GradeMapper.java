@@ -13,14 +13,16 @@ public interface GradeMapper {
     @Mappings({
             @Mapping(target = "student.grades", ignore = true),
             @Mapping(target = "student.schoolClass", ignore = true),
-            @Mapping(target = "student.parent.children", ignore = true)
+            @Mapping(target = "student.parent.children", ignore = true),
+            @Mapping(target = "subject.teachers", ignore = true)
     })
     GradeDTO gradeToGradeDTO(Grade grade);
 
     @Mappings({
             @Mapping(target = "student.grades", ignore = true),
             @Mapping(target = "student.schoolClass", ignore = true),
-            @Mapping(target = "student.parent.children", ignore = true)
+            @Mapping(target = "student.parent.children", ignore = true),
+            @Mapping(target = "subject.teachers", ignore = true)
     })
     Grade gradeDTOToGrade(GradeDTO gradeDTO);
 }

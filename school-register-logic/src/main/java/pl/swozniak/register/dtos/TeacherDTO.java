@@ -8,4 +8,5 @@ public class TeacherDTO {
     private String firstName;
     private String lastName;
     private String telephone;
+    private SubjectDTO subject;
 }
