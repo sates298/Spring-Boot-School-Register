@@ -53,4 +53,13 @@ public class TeacherServiceImpl implements TeacherService {
     public void deleteById(Long id) {
         teacherRepository.deleteById(id);
     }
+
+    @Override
+    public List<TeacherDTO> findBySubjectId(Long subjectId) {
+        return teacherRepository
+                .findAllBySubjectId(subjectId)
+                .stream()
+                .map(teacherMapper::teacherToTeacherDTO)
+                .collect(Collectors.toList());
+    }
 }

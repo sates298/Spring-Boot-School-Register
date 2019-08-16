@@ -81,4 +81,13 @@ public class GradeServiceImpl implements GradeService {
 
         return save(transfer);
     }
+
+    @Override
+    public List<GradeDTO> findAllByStudentId(Long studentId) {
+        return gradeRepository
+                .findAllByStudentId(studentId)
+                .stream()
+                .map(gradeMapper::gradeToGradeDTO)
+                .collect(Collectors.toList());
+    }
 }

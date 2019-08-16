@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.services.GradeService;
-import pl.swozniak.register.services.StudentService;
 
 import java.util.List;
 
@@ -15,18 +14,15 @@ import java.util.List;
 public class GradeController {
 
     private final GradeService gradeService;
-    private final StudentService studentService;
 
-    public GradeController(GradeService gradeService, StudentService studentService) {
+
+    public GradeController(GradeService gradeService) {
         this.gradeService = gradeService;
-        this.studentService = studentService;
     }
 
     @GetMapping({"", "/", "/all"})
     public ResponseEntity<List<GradeDTO>> getAllGrades(@PathVariable Long student_id){
-        List<GradeDTO> grades = studentService.findById(student_id).getGrades();
-
-        return new ResponseEntity<>(grades, HttpStatus.OK);
+        return new ResponseEntity<>(gradeService.findAllByStudentId(student_id), HttpStatus.OK);
     }
 
     @GetMapping("/{grade_id}")
