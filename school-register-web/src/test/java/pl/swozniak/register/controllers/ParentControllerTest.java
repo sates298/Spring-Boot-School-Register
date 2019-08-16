@@ -61,12 +61,18 @@ class ParentControllerTest {
 
         when(parentService.findAll()).thenReturn(parents);
 
-        mockMvc.perform(get("/parent")
+        testFindAllWithDifferentUri("/parent");
+        testFindAllWithDifferentUri("/parent/");
+        testFindAllWithDifferentUri("/parent/all");
+
+    }
+
+    private void testFindAllWithDifferentUri(String uri) throws Exception {
+        mockMvc.perform(get(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
-
     }
 
     @Test
@@ -94,10 +100,8 @@ class ParentControllerTest {
         studentDTO2.setId(ID + 1);
 
         List<StudentDTO> studentDTOS = Arrays.asList(studentDTO1, studentDTO2);
-        ParentDTO parentDTO = new ParentDTO();
-        parentDTO.setChildren(studentDTOS);
 
-        when(parentService.findById(anyLong())).thenReturn(parentDTO);
+        when(parentService.findChildrenByParentId(anyLong())).thenReturn(studentDTOS);
 
         mockMvc.perform(get("/parent/1/children")
                 .accept(MediaType.APPLICATION_JSON)

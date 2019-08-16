@@ -34,6 +34,6 @@ public class ParentController {
 
     @GetMapping("/{id}/children")
     public  ResponseEntity<List<StudentDTO>> getChildren(@PathVariable Long id){
-        return new ResponseEntity<>(parentService.findById(id).getChildren(), HttpStatus.OK);
+        return new ResponseEntity<>(parentService.findChildrenByParentId(id), HttpStatus.OK);
     }
 }

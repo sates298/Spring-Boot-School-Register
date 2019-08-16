@@ -30,7 +30,7 @@ public class GradeController {
         return new ResponseEntity<>(gradeService.findById(grade_id), HttpStatus.OK);
     }
 
-    @PostMapping("/new")
+    @PostMapping({"/new", "/add"})
     public ResponseEntity<GradeDTO> addGrade(@RequestBody Grade grade, @PathVariable Long student_id){
         return new ResponseEntity<>(gradeService.saveGrade(grade, student_id), HttpStatus.CREATED);
     }
@@ -41,8 +41,8 @@ public class GradeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{grade_id}/resit")
-    public ResponseEntity<GradeDTO> putGrade(@PathVariable Long grade_id, @RequestBody Grade grade){
+    @PatchMapping("/{grade_id}/resit")
+    public ResponseEntity<GradeDTO> patchGrade(@PathVariable Long grade_id, @RequestBody Grade grade){
         return new ResponseEntity<>(gradeService.put(grade_id, grade), HttpStatus.OK);
     }
 
