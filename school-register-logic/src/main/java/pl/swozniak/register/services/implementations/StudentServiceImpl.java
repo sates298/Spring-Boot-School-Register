@@ -55,6 +55,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<StudentDTO> findStudentsByParentId(Long parentId) {
+        return studentRepository
+                .findAllByParentId(parentId)
+                .stream()
+                .map(studentMapper::studentToStudentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public StudentDTO patch(Long id, Student student) throws ResourceNotFoundException{
         Student found = studentRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
 

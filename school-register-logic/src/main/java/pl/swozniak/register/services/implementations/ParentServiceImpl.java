@@ -2,10 +2,12 @@ package pl.swozniak.register.services.implementations;
 
 import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.ParentDTO;
+import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.ParentMapper;
 import pl.swozniak.register.model.Parent;
 import pl.swozniak.register.repositories.ParentRepository;
 import pl.swozniak.register.services.ParentService;
+import pl.swozniak.register.services.StudentService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
@@ -17,9 +19,12 @@ public class ParentServiceImpl implements ParentService {
     private final ParentRepository parentRepository;
     private final ParentMapper parentMapper;
 
-    public ParentServiceImpl(ParentRepository parentRepository, ParentMapper parentMapper) {
+    private final StudentService studentService;
+
+    public ParentServiceImpl(ParentRepository parentRepository, ParentMapper parentMapper, StudentService studentService) {
         this.parentRepository = parentRepository;
         this.parentMapper = parentMapper;
+        this.studentService = studentService;
     }
 
     @Override
@@ -51,5 +56,10 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public void deleteById(Long id) {
         parentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<StudentDTO> findChildrenByParentId(Long id) {
+        return studentService.findStudentsByParentId(id);
     }
 }
