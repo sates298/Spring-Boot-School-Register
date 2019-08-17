@@ -12,16 +12,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.swozniak.register.dtos.GradeDTO;
 
+import pl.swozniak.register.dtos.StudentDTO;
+import pl.swozniak.register.gradeprocessing.GradeUpdater;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.GradeRepository;
-import pl.swozniak.register.repositories.StudentRepository;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.services.ServiceManager;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,18 +40,22 @@ import static org.mockito.Mockito.when;
 class GradeServiceImplTest {
 
     public static final long ID = 1L;
+    public static final String NOTES = "notes";
 
     @Mock
     GradeRepository gradeRepository;
 
     @Mock
-    StudentRepository studentRepository;
+    ServiceManager manager;
 
     @Mock
     GradeMapper mapper;
 
     @Mock
     NewGradeProcessor newGradeProcessor;
+
+    @Mock
+    GradeUpdater updater;
 
     @InjectMocks
     GradeServiceImpl service;
@@ -100,24 +106,28 @@ class GradeServiceImplTest {
 
 
     @Test
-    void saveGradeFound(){
-        Student owner = Student.builder().id(ID).build();
-        when(studentRepository.findById(anyLong())).thenReturn(Optional.of(owner));
+    void saveDTOFoundOwner(){
+        StudentDTO owner = new StudentDTO();
+        owner.setId(ID);
+
         when(gradeRepository.save(any())).thenReturn(returnedGrade);
+        when(manager.findStudentById(anyLong())).thenReturn(owner);
         when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
+        when(mapper.gradeDTOToGrade(any())).thenReturn(returnedGrade);
         when(newGradeProcessor.processNewGrade(any())).thenReturn(returnedDTO);
 
         GradeDTO saved = service.saveDTO(returnedDTO, ID);
 
         assertNotNull(saved);
-        assertEquals(Long.valueOf(ID), returnedGrade.getStudent().getId());
+        assertNotNull(returnedDTO.getStudent());
+        assertEquals(Long.valueOf(ID), returnedDTO.getStudent().getId());
 
         verify(gradeRepository).save(any());
     }
 
     @Test
-    void saveGradeNotFoundOwner(){
-        when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
+    void savedDTONotFoundOwner(){
+        when(manager.findStudentById(anyLong())).thenThrow(new ResourceNotFoundException());
 
         assertThrows(ResourceNotFoundException.class, () ->
                 service.saveDTO(returnedDTO, ID));
@@ -152,18 +162,55 @@ class GradeServiceImplTest {
     }
 
     @Test
-    void patch(){
-        GradeDTO testing = new GradeDTO();
-        when(gradeRepository.save(any())).thenReturn(returnedGrade);
-        when(gradeRepository.findById(anyLong())).thenReturn(Optional.of(returnedGrade));
-        when(mapper.gradeToGradeDTO(any())).thenReturn(testing);
-        when(mapper.gradeDTOToGrade(any())).thenReturn(returnedGrade);
-        when(newGradeProcessor.processNewGrade(any())).thenReturn(testing);
+    void patchNotFound(){
+        when(gradeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        GradeDTO dto = service.patch(ID, testing);
-
-        assertNotNull(dto);
-        assertEquals(Long.valueOf(ID), dto.getId());
-        verify(gradeRepository).save(any());
+        assertThrows(ResourceNotFoundException.class, () ->
+                service.patch(ID,returnedDTO));
     }
+
+
+    @Test
+    void patch() {
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setId(ID);
+        returnedDTO.setStudent(studentDTO);
+
+        when(gradeRepository.findById(anyLong())).thenReturn(Optional.of(returnedGrade));
+        when(gradeRepository.save(any())).thenReturn(returnedGrade);
+
+        when(updater.updateGrade(any(), any())).thenReturn(returnedDTO);
+
+        when(manager.findStudentById(anyLong())).thenReturn(new StudentDTO());
+
+        when(mapper.gradeDTOToGrade(any())).thenReturn(returnedGrade);
+        when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
+
+        when(newGradeProcessor.processNewGrade(any())).thenReturn(returnedDTO);
+
+        GradeDTO returned = service.patch(ID, returnedDTO);
+
+        assertNotNull(returned);
+
+        verify(updater).updateGrade(any(), any());
+        verify(gradeRepository).save(any());
+
+    }
+
+    @Test
+    void findAllByStudentId(){
+        Grade grade = Grade.builder().id(ID + 1).build();
+
+        List<Grade> grades = Arrays.asList(grade, returnedGrade);
+
+        when(gradeRepository.findAllByStudentId(anyLong())).thenReturn(grades);
+        when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
+
+        List<GradeDTO> returned = service.findAllByStudentId(ID);
+
+        assertNotNull(returned);
+        assertEquals(2, returned.size());
+    }
+
+
 }

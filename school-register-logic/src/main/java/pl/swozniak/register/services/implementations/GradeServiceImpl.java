@@ -3,13 +3,13 @@ package pl.swozniak.register.services.implementations;
 import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.StudentDTO;
+import pl.swozniak.register.gradeprocessing.GradeUpdater;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.ServiceManager;
 import pl.swozniak.register.services.interfaces.GradeService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
 
 import java.util.List;
@@ -22,15 +22,17 @@ public class GradeServiceImpl implements GradeService {
     private final GradeMapper gradeMapper;
 
     private final NewGradeProcessor newGradeProcessor;
+    private final GradeUpdater gradeUpdater;
 
     private final ServiceManager manager;
 
     public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper,
-                            ServiceManager manager, NewGradeProcessor newGradeProcessor) {
+                            ServiceManager manager, NewGradeProcessor newGradeProcessor, GradeUpdater gradeUpdater) {
         this.gradeRepository = gradeRepository;
         this.gradeMapper = gradeMapper;
         this.manager = manager;
         this.newGradeProcessor = newGradeProcessor;
+        this.gradeUpdater = gradeUpdater;
     }
 
     @Override
@@ -78,17 +80,10 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public GradeDTO patch(Long id, GradeDTO grade) {
-
         return gradeRepository.findById(id).map(found -> {
-            if (!found.getGrade().toString().equals(grade.getGrade())) {
-                found.setGrade(GradeValue.fromString(grade.getGrade()));
-            }
-
-            if (!found.getNotes().equals(grade.getNotes())) {
-                found.setNotes(grade.getNotes());
-            }
-
-            return saveDTO(gradeMapper.gradeToGradeDTO(found), found.getStudent().getId());
+            GradeDTO updated =
+                    gradeUpdater.updateGrade(gradeMapper.gradeToGradeDTO(found),grade);
+            return saveDTO(updated, updated.getOwnerId());
         }).orElseThrow(ResourceNotFoundException::new);
     }
 

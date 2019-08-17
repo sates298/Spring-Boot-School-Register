@@ -6,14 +6,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.StudentMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.StudentRepository;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +96,19 @@ class StudentServiceImplTest {
     }
 
     @Test
+    void saveDTO(){
+        when(studentRepository.save(any())).thenReturn(returnedStudent);
+        when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+        when(mapper.studentDTOToStudent(any())).thenReturn(returnedStudent);
+
+        StudentDTO returned = service.saveDTO(returnedDTO);
+
+        assertNotNull(returned);
+
+        verify(studentRepository).save(any());
+    }
+
+    @Test
     void delete() {
         service.delete(returnedStudent);
 
@@ -108,6 +123,36 @@ class StudentServiceImplTest {
     }
 
     @Test
+    void findAllByClassId(){
+        Student student = Student.builder().id(ID + 1).build();
+        List<Student> students = Arrays.asList(student, returnedStudent);
+
+        when(studentRepository.findAllBySchoolClassId(anyLong())).thenReturn(students);
+        when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+
+        List<StudentDTO> returned = service.findAllByClassId(ID);
+
+        assertNotNull(returned);
+        assertEquals(2, returned.size());
+    }
+
+    @Test
+    void findAllByParentId(){
+        Student student = Student.builder().id(ID + 1).build();
+        List<Student> students = Arrays.asList(student, returnedStudent);
+
+        when(studentRepository.findAllByParentId(anyLong())).thenReturn(students);
+        when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+
+        List<StudentDTO> returned = service.findAllByParentId(ID);
+
+        assertNotNull(returned);
+        assertEquals(2, returned.size());
+    }
+
+
+
+    @Test
     void patchNotFoundById(){
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -118,17 +163,25 @@ class StudentServiceImplTest {
     @Test
     void patchDifferentSchoolClassId(){
         SchoolClass schoolClass = SchoolClass.builder().id(ID).build();
-        SchoolClass schoolClass1 = SchoolClass.builder().id(ID + 1).build();
         returnedStudent.setSchoolClass(schoolClass);
-        Student testing = Student.builder().id(ID + 1).schoolClass(schoolClass1).build();
+
+        SchoolClass schoolClass1 = SchoolClass.builder().id(ID + 1).build();
+        Student studentForClass = Student.builder().schoolClass(schoolClass1).build();
+
+        SchoolClassDTO schoolClassDTO = new SchoolClassDTO();
+        schoolClassDTO.setId(ID + 1);
+
+        StudentDTO testing = new StudentDTO();
+        testing.setSchoolClass(schoolClassDTO);
 
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(returnedStudent));
         when(studentRepository.save(any())).thenReturn(returnedStudent);
         when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+        when(mapper.studentDTOToStudent(any())).thenReturn(studentForClass);
 
-//        StudentDTO dto = service.patch(ID, testing);
+        StudentDTO dto = service.patch(ID, testing);
 
-//        assertNotNull(dto);
+        assertNotNull(dto);
         assertEquals(Long.valueOf(ID +1), returnedStudent.getSchoolClass().getId());
 
         verify(studentRepository).save(any());
@@ -138,6 +191,10 @@ class StudentServiceImplTest {
     void patchSameSchoolClassId(){
         SchoolClass schoolClass = SchoolClass.builder().id(ID).build();
         returnedStudent.setSchoolClass(schoolClass);
+
+        SchoolClassDTO schoolClassDTO = new SchoolClassDTO();
+        schoolClassDTO.setId(ID);
+        returnedDTO.setSchoolClass(schoolClassDTO);
 
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(returnedStudent));
         when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);

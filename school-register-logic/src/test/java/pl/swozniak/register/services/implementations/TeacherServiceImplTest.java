@@ -10,9 +10,10 @@ import pl.swozniak.register.dtos.TeacherDTO;
 import pl.swozniak.register.mappers.TeacherMapper;
 import pl.swozniak.register.model.Teacher;
 import pl.swozniak.register.repositories.TeacherRepository;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,5 +105,20 @@ class TeacherServiceImplTest {
         service.deleteById(ID);
 
         verify(teacherRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void findBySubject(){
+        Teacher teacher = Teacher.builder().id(ID + 1).build();
+
+        List<Teacher> teachers = Arrays.asList(teacher, returnedTeacher);
+
+        when(teacherRepository.findAllBySubjectId(anyLong())).thenReturn(teachers);
+        when(mapper.teacherToTeacherDTO(any())).thenReturn(returnedDTO);
+
+        List<TeacherDTO> returned = service.findBySubjectId(ID);
+
+        assertNotNull(returned);
+        assertEquals(2, returned.size());
     }
 }

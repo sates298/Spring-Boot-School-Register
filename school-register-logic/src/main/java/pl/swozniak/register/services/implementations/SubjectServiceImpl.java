@@ -6,7 +6,7 @@ import pl.swozniak.register.mappers.SubjectMapper;
 import pl.swozniak.register.model.Subject;
 import pl.swozniak.register.repositories.SubjectRepository;
 import pl.swozniak.register.services.interfaces.SubjectService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

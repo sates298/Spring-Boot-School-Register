@@ -10,7 +10,7 @@ import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.mappers.SchoolClassMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.repositories.SchoolClassRepository;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

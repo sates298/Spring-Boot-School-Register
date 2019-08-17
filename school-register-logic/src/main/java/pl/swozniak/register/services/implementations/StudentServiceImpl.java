@@ -6,7 +6,7 @@ import pl.swozniak.register.mappers.StudentMapper;
 import pl.swozniak.register.model.Student;
 import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.interfaces.StudentService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> findStudentsByParentId(Long parentId) {
+    public List<StudentDTO> findAllByParentId(Long parentId) {
         return studentRepository
                 .findAllByParentId(parentId)
                 .stream()

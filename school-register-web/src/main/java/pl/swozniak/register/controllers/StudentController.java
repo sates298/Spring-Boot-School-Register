@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.interfaces.StudentService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class StudentController {
 
     @GetMapping("/all/parent-{parentId}")
     public ResponseEntity<List<StudentDTO>> getAllStudentsByParentId(@PathVariable Long parentId){
-        return new ResponseEntity<>(studentService.findStudentsByParentId(parentId), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.findAllByParentId(parentId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

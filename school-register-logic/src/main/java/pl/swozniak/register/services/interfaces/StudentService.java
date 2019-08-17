@@ -8,6 +8,6 @@ import java.util.List;
 public interface StudentService extends CrudService<Student, StudentDTO, Long>{
     StudentDTO saveDTO(StudentDTO studentDTO);
     List<StudentDTO> findAllByClassId(Long classId);
-    List<StudentDTO> findStudentsByParentId(Long parentId);
+    List<StudentDTO> findAllByParentId(Long parentId);
     StudentDTO patch(Long id, StudentDTO student);
 }

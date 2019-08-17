@@ -6,7 +6,7 @@ import pl.swozniak.register.mappers.ParentMapper;
 import pl.swozniak.register.model.Parent;
 import pl.swozniak.register.repositories.ParentRepository;
 import pl.swozniak.register.services.interfaces.ParentService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

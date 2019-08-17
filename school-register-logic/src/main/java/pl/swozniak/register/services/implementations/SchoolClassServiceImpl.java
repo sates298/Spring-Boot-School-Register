@@ -6,7 +6,7 @@ import pl.swozniak.register.mappers.SchoolClassMapper;
 import pl.swozniak.register.model.SchoolClass;
 import pl.swozniak.register.repositories.SchoolClassRepository;
 import pl.swozniak.register.services.interfaces.SchoolClassService;
-import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
