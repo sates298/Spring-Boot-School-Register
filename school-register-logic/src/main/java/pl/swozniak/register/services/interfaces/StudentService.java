@@ -1,6 +1,5 @@
-package pl.swozniak.register.services;
+package pl.swozniak.register.services.interfaces;
 
-import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.model.Student;
 

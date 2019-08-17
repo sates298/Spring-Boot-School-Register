@@ -5,7 +5,7 @@ import pl.swozniak.register.dtos.TeacherDTO;
 import pl.swozniak.register.mappers.TeacherMapper;
 import pl.swozniak.register.model.Teacher;
 import pl.swozniak.register.repositories.TeacherRepository;
-import pl.swozniak.register.services.TeacherService;
+import pl.swozniak.register.services.interfaces.TeacherService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;

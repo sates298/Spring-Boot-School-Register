@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.swozniak.register.dtos.GradeDTO;
-import pl.swozniak.register.services.GradeService;
+import pl.swozniak.register.services.interfaces.GradeService;
 
 import java.util.List;
 

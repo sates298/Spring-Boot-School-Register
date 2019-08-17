@@ -10,13 +10,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.swozniak.register.dtos.SchoolClassDTO;
-import pl.swozniak.register.services.SchoolClassService;
+import pl.swozniak.register.services.interfaces.SchoolClassService;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

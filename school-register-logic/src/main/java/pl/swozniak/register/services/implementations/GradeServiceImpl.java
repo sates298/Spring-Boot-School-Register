@@ -2,13 +2,13 @@ package pl.swozniak.register.services.implementations;
 
 import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.Student;
 import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.repositories.GradeRepository;
-import pl.swozniak.register.repositories.StudentRepository;
-import pl.swozniak.register.services.GradeService;
+import pl.swozniak.register.services.ServiceManager;
+import pl.swozniak.register.services.interfaces.GradeService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
 
@@ -19,15 +19,17 @@ import java.util.stream.Collectors;
 public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
-    private final StudentRepository studentRepository;
     private final GradeMapper gradeMapper;
+
     private final NewGradeProcessor newGradeProcessor;
 
-    public GradeServiceImpl(GradeRepository gradeRepository, StudentRepository studentRepository,
-                            GradeMapper gradeMapper, NewGradeProcessor newGradeProcessor) {
+    private final ServiceManager manager;
+
+    public GradeServiceImpl(GradeRepository gradeRepository, GradeMapper gradeMapper,
+                            ServiceManager manager, NewGradeProcessor newGradeProcessor) {
         this.gradeRepository = gradeRepository;
-        this.studentRepository = studentRepository;
         this.gradeMapper = gradeMapper;
+        this.manager = manager;
         this.newGradeProcessor = newGradeProcessor;
     }
 
@@ -48,13 +50,12 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public GradeDTO saveDTO(GradeDTO gradeDTO, Long studentId) {
-        Student owner = studentRepository.findById(studentId).orElseThrow(ResourceNotFoundException::new);
-        Grade grade = gradeMapper.gradeDTOToGrade(gradeDTO);
-        if (grade.getStudent() == null) {
-            grade.setStudent(owner);
+        StudentDTO owner = manager.findStudentById(studentId);
+        if (gradeDTO.getStudent() == null) {
+            gradeDTO.setStudent(owner);
         }
 
-        return save(grade);
+        return save(gradeMapper.gradeDTOToGrade(gradeDTO));
     }
 
     @Override

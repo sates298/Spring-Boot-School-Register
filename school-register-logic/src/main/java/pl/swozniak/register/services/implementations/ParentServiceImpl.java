@@ -2,12 +2,10 @@ package pl.swozniak.register.services.implementations;
 
 import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.ParentDTO;
-import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.ParentMapper;
 import pl.swozniak.register.model.Parent;
 import pl.swozniak.register.repositories.ParentRepository;
-import pl.swozniak.register.services.ParentService;
-import pl.swozniak.register.services.StudentService;
+import pl.swozniak.register.services.interfaces.ParentService;
 import pl.swozniak.register.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;

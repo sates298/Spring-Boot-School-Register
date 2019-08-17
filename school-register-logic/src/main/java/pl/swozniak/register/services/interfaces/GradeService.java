@@ -1,4 +1,4 @@
-package pl.swozniak.register.services;
+package pl.swozniak.register.services.interfaces;
 
 
 import pl.swozniak.register.dtos.GradeDTO;

@@ -8,7 +8,7 @@ import pl.swozniak.register.model.*;
 import pl.swozniak.register.model.enums.ClassLevel;
 import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.model.enums.SubjectName;
-import pl.swozniak.register.services.*;
+import pl.swozniak.register.services.interfaces.*;
 
 @Component
 @Slf4j

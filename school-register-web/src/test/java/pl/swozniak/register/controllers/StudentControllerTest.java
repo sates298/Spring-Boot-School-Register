@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.swozniak.register.dtos.StudentDTO;
-import pl.swozniak.register.services.StudentService;
+import pl.swozniak.register.services.interfaces.StudentService;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.anyLong;

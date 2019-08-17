@@ -6,12 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.swozniak.register.dtos.TeacherDTO;
-import pl.swozniak.register.services.TeacherService;
+import pl.swozniak.register.services.interfaces.TeacherService;
 
 import java.util.ArrayList;
 import java.util.List;
