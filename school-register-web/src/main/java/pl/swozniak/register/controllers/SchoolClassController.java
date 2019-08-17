@@ -10,6 +10,8 @@ import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.SchoolClassService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -28,8 +30,14 @@ public class SchoolClassController {
         return new ResponseEntity<>(schoolClassService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{class_id}")
-    public ResponseEntity<List<StudentDTO>> getOneClass(@PathVariable Long class_id){
-        return new ResponseEntity<>(schoolClassService.findById(class_id).getStudents(), HttpStatus.OK);
+    @GetMapping("/{classId}")
+    public ResponseEntity<SchoolClassDTO> getOneClass(@PathVariable Long classId){
+        return new ResponseEntity<>(schoolClassService.findById(classId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{classId}/students")
+    public void getStudentsOneClass(@PathVariable Long classId, HttpServletResponse response) throws IOException {
+        String redirect = "student/all/class-" + classId;
+        response.sendRedirect(redirect);
     }
 }

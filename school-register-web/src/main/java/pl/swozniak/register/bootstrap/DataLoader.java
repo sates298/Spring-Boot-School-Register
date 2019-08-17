@@ -47,14 +47,14 @@ public class DataLoader implements CommandLineRunner {
 
         ParentDTO parentDTO1 = saveParent(parent1);
         ParentDTO parentDTO2 = saveParent(parent2);
-        log.info("save parents");
+        log.info("saveDTO parents");
 
         SchoolClass classA = createSchoolClass('A', 1L, ClassLevel.FIRST);
         SchoolClass classB = createSchoolClass('B', 2L, ClassLevel.THIRD);
 
         SchoolClassDTO classDTOA = saveSchoolClass(classA);
         SchoolClassDTO classDTOB = saveSchoolClass(classB);
-        log.info("save classes");
+        log.info("saveDTO classes");
 
         Student student1 = createStudent(1L, "firstS1", "lastS1", parent1, classA);
         Student student2 = createStudent(2L, "firstS2", "lastS2", parent2, classA);
@@ -63,7 +63,7 @@ public class DataLoader implements CommandLineRunner {
         StudentDTO studentDTO1 = saveStudent(student1);
         StudentDTO studentDTO2 = saveStudent(student2);
         StudentDTO studentDTO3 = saveStudent(student3);
-        log.info("save students");
+        log.info("saveDTO students");
 
         Subject subject1 = createSubject(1L, SubjectName.MATHS);
         Subject subject2 = createSubject(2L, SubjectName.BIOLOGY);
@@ -74,7 +74,7 @@ public class DataLoader implements CommandLineRunner {
         SubjectDTO subjectDTO2 = saveSubject(subject2);
         SubjectDTO subjectDTO3 = saveSubject(subject3);
         SubjectDTO subjectDTO4 = saveSubject(subject4);
-        log.info("save subjects");
+        log.info("saveDTO subjects");
 
         Grade grade1 = createGrade(1L, GradeValue.THREE, subject1, "exam3", student1);
         Grade grade2 = createGrade(2L, GradeValue.FOUR, subject2, "exam4", student1);
@@ -87,7 +87,7 @@ public class DataLoader implements CommandLineRunner {
         GradeDTO gradeDTO3 = saveGrade(grade3);
         GradeDTO gradeDTO4 = saveGrade(grade4);
         GradeDTO gradeDTO5 = saveGrade(grade5);
-        log.info("save grades");
+        log.info("saveDTO grades");
 
         Teacher teacher1 = createTeacher(1L, "firstT1", "lastT1", "098765432", subject1);
         Teacher teacher2 = createTeacher(2L, "firstT2", "lastT2", "987654321", subject2);
@@ -98,7 +98,7 @@ public class DataLoader implements CommandLineRunner {
         TeacherDTO teacherDTO2 = saveTeacher(teacher2);
         TeacherDTO teacherDTO3 = saveTeacher(teacher3);
         TeacherDTO teacherDTO4 = saveTeacher(teacher4);
-        log.info("save teachers");
+        log.info("saveDTO teachers");
     }
 
     private Subject createSubject(long id, SubjectName name){

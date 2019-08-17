@@ -45,6 +45,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentDTO saveDTO(StudentDTO studentDTO){
+        return save(studentMapper.studentDTOToStudent(studentDTO));
+    }
+
+    @Override
+    public List<StudentDTO> findAllByClassId(Long classId) {
+        return studentRepository
+                .findAllBySchoolClassId(classId)
+                .stream()
+                .map(studentMapper::studentToStudentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void delete(Student object) {
         studentRepository.delete(object);
     }
@@ -64,19 +78,24 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDTO patch(Long id, Student student) throws ResourceNotFoundException{
-        Student found = studentRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    public StudentDTO patch(Long id, StudentDTO student) throws ResourceNotFoundException{
 
-        if(!found.getSchoolClass().getId()
-                .equals(student.getSchoolClass().getId())){
+        return studentMapper.studentToStudentDTO(studentRepository.findById(id).map(found -> {
 
-            found.setSchoolClass(student.getSchoolClass());
-            Student saved = studentRepository.save(found);
+            if(!found.getSchoolClass().getId()
+                    .equals(student.getSchoolClass().getId())){
 
-            return studentMapper.studentToStudentDTO(saved);
-        }
+                found.setSchoolClass(
+                        studentMapper
+                        .studentDTOToStudent(student)
+                        .getSchoolClass()
+                );
 
-        return studentMapper.studentToStudentDTO(found);
+                return studentRepository.save(found);
+            }
+
+            return found;
+        }).orElseThrow(ResourceNotFoundException::new));
     }
 
 }

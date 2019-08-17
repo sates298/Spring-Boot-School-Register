@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.swozniak.register.dtos.GradeDTO;
-import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.services.GradeService;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public class GradeController {
 
     private final GradeService gradeService;
 
-
     public GradeController(GradeService gradeService) {
         this.gradeService = gradeService;
     }
@@ -25,25 +23,25 @@ public class GradeController {
         return new ResponseEntity<>(gradeService.findAllByStudentId(student_id), HttpStatus.OK);
     }
 
-    @GetMapping("/{grade_id}")
-    public ResponseEntity<GradeDTO> getGrade(@PathVariable Long grade_id){
-        return new ResponseEntity<>(gradeService.findById(grade_id), HttpStatus.OK);
+    @GetMapping("/{gradeId}")
+    public ResponseEntity<GradeDTO> getGrade(@PathVariable Long gradeId){
+        return new ResponseEntity<>(gradeService.findById(gradeId), HttpStatus.OK);
     }
 
     @PostMapping({"/new", "/add"})
-    public ResponseEntity<GradeDTO> addGrade(@RequestBody Grade grade, @PathVariable Long student_id){
-        return new ResponseEntity<>(gradeService.saveGrade(grade, student_id), HttpStatus.CREATED);
+    public ResponseEntity<GradeDTO> addGrade(@RequestBody GradeDTO grade, @PathVariable Long student_id){
+        return new ResponseEntity<>(gradeService.saveDTO(grade, student_id), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{grade_id}")
-    public ResponseEntity<Void> deleteGrade(@PathVariable Long grade_id){
-        gradeService.deleteById(grade_id);
+    @DeleteMapping("/{gradeId}")
+    public ResponseEntity<Void> deleteGrade(@PathVariable Long gradeId){
+        gradeService.deleteById(gradeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/{grade_id}/resit")
-    public ResponseEntity<GradeDTO> patchGrade(@PathVariable Long grade_id, @RequestBody Grade grade){
-        return new ResponseEntity<>(gradeService.put(grade_id, grade), HttpStatus.OK);
+    @PatchMapping("/{gradeId}/resit")
+    public ResponseEntity<GradeDTO> patchGrade(@PathVariable Long gradeId, @RequestBody GradeDTO grade){
+        return new ResponseEntity<>(gradeService.patch(gradeId, grade), HttpStatus.OK);
     }
 
 

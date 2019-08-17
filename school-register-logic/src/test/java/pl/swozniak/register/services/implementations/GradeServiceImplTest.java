@@ -100,14 +100,14 @@ class GradeServiceImplTest {
 
 
     @Test
-    void saveGradeFoundOwner(){
+    void saveGradeFound(){
         Student owner = Student.builder().id(ID).build();
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(owner));
         when(gradeRepository.save(any())).thenReturn(returnedGrade);
         when(mapper.gradeToGradeDTO(any())).thenReturn(returnedDTO);
         when(newGradeProcessor.processNewGrade(any())).thenReturn(returnedDTO);
 
-        GradeDTO saved = service.saveGrade(returnedGrade, ID);
+        GradeDTO saved = service.saveDTO(returnedDTO, ID);
 
         assertNotNull(saved);
         assertEquals(Long.valueOf(ID), returnedGrade.getStudent().getId());
@@ -120,7 +120,7 @@ class GradeServiceImplTest {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () ->
-                service.saveGrade(returnedGrade, ID));
+                service.saveDTO(returnedDTO, ID));
     }
 
     @Test
@@ -152,14 +152,15 @@ class GradeServiceImplTest {
     }
 
     @Test
-    void put(){
+    void patch(){
         GradeDTO testing = new GradeDTO();
         when(gradeRepository.save(any())).thenReturn(returnedGrade);
+        when(gradeRepository.findById(anyLong())).thenReturn(Optional.of(returnedGrade));
         when(mapper.gradeToGradeDTO(any())).thenReturn(testing);
         when(mapper.gradeDTOToGrade(any())).thenReturn(returnedGrade);
         when(newGradeProcessor.processNewGrade(any())).thenReturn(testing);
 
-        GradeDTO dto = service.put(ID, returnedGrade);
+        GradeDTO dto = service.patch(ID, testing);
 
         assertNotNull(dto);
         assertEquals(Long.valueOf(ID), dto.getId());

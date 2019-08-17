@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.swozniak.register.dtos.TeacherDTO;
+import pl.swozniak.register.model.Teacher;
 import pl.swozniak.register.services.TeacherService;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class TeacherController {
     @GetMapping({"", "/", "/all"})
     public ResponseEntity<List<TeacherDTO>> getAllTeachers(){
         return new ResponseEntity<>(teacherService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/subject-{subjectId}")
+    public ResponseEntity<List<TeacherDTO>> getAllTeachersBySubjectId(@PathVariable Long subjectId){
+        return new ResponseEntity<>(teacherService.findBySubjectId(subjectId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

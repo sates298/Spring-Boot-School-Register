@@ -1,11 +1,9 @@
 package pl.swozniak.register.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -13,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.swozniak.register.dtos.GradeDTO;
-import pl.swozniak.register.model.Grade;
-import pl.swozniak.register.model.Student;
 import pl.swozniak.register.services.GradeService;
 
 import java.util.Arrays;
@@ -22,7 +18,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -99,7 +94,7 @@ class GradeControllerTest {
         GradeDTO gradeDTO = new GradeDTO();
         gradeDTO.setGrade(STRING);
 
-        when(gradeService.saveGrade(any(), anyLong())).thenReturn(gradeDTO);
+        when(gradeService.saveDTO(any(), anyLong())).thenReturn(gradeDTO);
 
         testAddNewGradeWithDifferentUri("/student/1/grades/new", gradeDTO);
         testAddNewGradeWithDifferentUri("/student/1/grades/add", gradeDTO);
@@ -128,7 +123,7 @@ class GradeControllerTest {
         gradeDTO.setId(ID);
         gradeDTO.setGrade(STRING);
 
-        when(gradeService.put(anyLong(), any())).thenReturn(gradeDTO);
+        when(gradeService.patch(anyLong(), any())).thenReturn(gradeDTO);
 
         mockMvc.perform(patch("/student/1/grades/1/resit")
                 .accept(MediaType.APPLICATION_JSON)

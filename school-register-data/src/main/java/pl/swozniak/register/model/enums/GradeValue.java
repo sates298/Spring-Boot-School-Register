@@ -1,5 +1,7 @@
 package pl.swozniak.register.model.enums;
 
+import java.util.Arrays;
+
 public enum GradeValue {
     ONE(1d, "1"),
     TWOMINUS(1.75, "2-"),
@@ -31,6 +33,13 @@ public enum GradeValue {
     @Override
     public String toString(){
         return this.repr;
+    }
+
+    public static GradeValue fromString(String string){
+        return Arrays.stream(GradeValue.values())
+                .filter(val -> val.toString().equals(string))
+                .findAny()
+                .orElseThrow(RuntimeException::new);
     }
 
 }

@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith({MockitoExtension.class})
-@ComponentScan(basePackages = {"pl.swozniak.register.controllers"})
 class TeacherControllerTest {
 
     public static final long ID = 1L;

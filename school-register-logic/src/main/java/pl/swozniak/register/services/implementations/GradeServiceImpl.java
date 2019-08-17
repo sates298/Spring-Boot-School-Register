@@ -5,6 +5,7 @@ import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.model.Student;
+import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.repositories.StudentRepository;
 import pl.swozniak.register.services.GradeService;
@@ -46,9 +47,10 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public GradeDTO saveGrade(Grade grade, Long studentId) {
+    public GradeDTO saveDTO(GradeDTO gradeDTO, Long studentId) {
         Student owner = studentRepository.findById(studentId).orElseThrow(ResourceNotFoundException::new);
-        if(grade.getStudent() == null){
+        Grade grade = gradeMapper.gradeDTOToGrade(gradeDTO);
+        if (grade.getStudent() == null) {
             grade.setStudent(owner);
         }
 
@@ -74,12 +76,19 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public GradeDTO put(Long id, Grade grade) {
-        GradeDTO dto = gradeMapper.gradeToGradeDTO(grade);
-        dto.setId(id);
-        Grade transfer = gradeMapper.gradeDTOToGrade(dto);
+    public GradeDTO patch(Long id, GradeDTO grade) {
 
-        return save(transfer);
+        return gradeRepository.findById(id).map(found -> {
+            if (!found.getGrade().toString().equals(grade.getGrade())) {
+                found.setGrade(GradeValue.fromString(grade.getGrade()));
+            }
+
+            if (!found.getNotes().equals(grade.getNotes())) {
+                found.setNotes(grade.getNotes());
+            }
+
+            return saveDTO(gradeMapper.gradeToGradeDTO(found), found.getStudent().getId());
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
