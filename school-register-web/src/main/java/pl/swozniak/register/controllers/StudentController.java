@@ -32,6 +32,11 @@ public class StudentController {
         return new ResponseEntity<>(studentService.findAllByClassId(classId),HttpStatus.OK);
     }
 
+    @GetMapping("/all/parent-{parentId}")
+    public ResponseEntity<List<StudentDTO>> getAllStudentsByParentId(@PathVariable Long parentId){
+        return new ResponseEntity<>(studentService.findStudentsByParentId(parentId), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StudentDTO> getOneStudent(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);

@@ -10,6 +10,8 @@ import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.ParentService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,7 +35,8 @@ public class ParentController {
     }
 
     @GetMapping("/{id}/children")
-    public  ResponseEntity<List<StudentDTO>> getChildren(@PathVariable Long id){
-        return new ResponseEntity<>(parentService.findChildrenByParentId(id), HttpStatus.OK);
+    public  void getChildren(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        String redirect = "student/all/parent-"+id;
+        response.sendRedirect(redirect);
     }
 }

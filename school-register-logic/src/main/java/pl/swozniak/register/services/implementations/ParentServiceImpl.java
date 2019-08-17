@@ -19,12 +19,9 @@ public class ParentServiceImpl implements ParentService {
     private final ParentRepository parentRepository;
     private final ParentMapper parentMapper;
 
-    private final StudentService studentService;
-
-    public ParentServiceImpl(ParentRepository parentRepository, ParentMapper parentMapper, StudentService studentService) {
+    public ParentServiceImpl(ParentRepository parentRepository, ParentMapper parentMapper) {
         this.parentRepository = parentRepository;
         this.parentMapper = parentMapper;
-        this.studentService = studentService;
     }
 
     @Override
@@ -56,11 +53,5 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public void deleteById(Long id) {
         parentRepository.deleteById(id);
-    }
-
-    @Override
-    public List<StudentDTO> findChildrenByParentId(Long id) {
-        //todo how to change it? Or how should it look like?
-        return studentService.findStudentsByParentId(id);
     }
 }
