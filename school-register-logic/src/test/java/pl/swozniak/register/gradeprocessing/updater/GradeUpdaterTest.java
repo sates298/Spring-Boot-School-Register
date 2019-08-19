@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.updater;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.exceptions.IllegalOperationException;
 import pl.swozniak.register.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.model.Student;
+import pl.swozniak.register.gradeprocessing.updater.GradeUpdater;
 import pl.swozniak.register.model.enums.GradeValue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

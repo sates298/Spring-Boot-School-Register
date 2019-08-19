@@ -3,14 +3,14 @@ package pl.swozniak.register.services.implementations;
 import org.springframework.stereotype.Service;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.StudentDTO;
-import pl.swozniak.register.gradeprocessing.GradeUpdater;
+import pl.swozniak.register.gradeprocessing.updater.GradeUpdater;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.ServiceManager;
 import pl.swozniak.register.services.interfaces.GradeService;
 import pl.swozniak.register.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.NewGradeProcessor;
 
 import java.util.List;
 import java.util.stream.Collectors;

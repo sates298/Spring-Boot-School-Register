@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

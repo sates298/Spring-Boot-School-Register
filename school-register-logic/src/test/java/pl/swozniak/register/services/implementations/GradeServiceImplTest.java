@@ -13,13 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.swozniak.register.dtos.GradeDTO;
 
 import pl.swozniak.register.dtos.StudentDTO;
-import pl.swozniak.register.gradeprocessing.GradeUpdater;
+import pl.swozniak.register.gradeprocessing.updater.GradeUpdater;
 import pl.swozniak.register.mappers.GradeMapper;
 import pl.swozniak.register.model.Grade;
 import pl.swozniak.register.repositories.GradeRepository;
 import pl.swozniak.register.services.ServiceManager;
 import pl.swozniak.register.exceptions.ResourceNotFoundException;
-import pl.swozniak.register.gradeprocessing.NewGradeProcessor;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.NewGradeProcessor;
 
 
 import java.util.ArrayList;

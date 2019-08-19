@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 import org.springframework.stereotype.Component;
 import pl.swozniak.register.dtos.ParentDTO;

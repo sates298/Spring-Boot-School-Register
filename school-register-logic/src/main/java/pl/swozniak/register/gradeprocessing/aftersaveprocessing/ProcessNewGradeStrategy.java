@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 import pl.swozniak.register.dtos.GradeDTO;
 

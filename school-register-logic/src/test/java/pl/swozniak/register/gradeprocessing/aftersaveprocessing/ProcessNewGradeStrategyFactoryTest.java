@@ -1,9 +1,13 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.SubjectDTO;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.BadBehaviorProcessNewGradeStrategy;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.PositiveProcessNewGradeStrategy;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.ProcessNewGradeStrategy;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.ProcessNewGradeStrategyFactory;
 import pl.swozniak.register.model.enums.GradeValue;
 import pl.swozniak.register.model.enums.SubjectName;
 

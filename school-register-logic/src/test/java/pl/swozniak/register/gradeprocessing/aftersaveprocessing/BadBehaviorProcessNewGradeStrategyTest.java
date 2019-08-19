@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing;
+package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
-import pl.swozniak.register.gradeprocessing.BadBehaviorMailMessageGenerator;
+import pl.swozniak.register.gradeprocessing.aftersaveprocessing.BadBehaviorMailMessageGenerator;
 
 
 @ExtendWith(MockitoExtension.class)
