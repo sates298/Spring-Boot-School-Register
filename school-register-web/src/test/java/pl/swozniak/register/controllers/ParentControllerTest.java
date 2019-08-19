@@ -97,7 +97,7 @@ class ParentControllerTest {
 
         List<StudentDTO> studentDTOS = Arrays.asList(studentDTO1, studentDTO2);
 
-        when(parentService.findChildrenByParentId(anyLong())).thenReturn(studentDTOS);
+//        when(parentService.findChildrenByParentId(anyLong())).thenReturn(studentDTOS);
 
         mockMvc.perform(get("/parent/1/children")
                 .accept(MediaType.APPLICATION_JSON)
