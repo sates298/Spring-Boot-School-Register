@@ -35,7 +35,7 @@ public class ParentController {
 
     @GetMapping("/{id}/children")
     public  void getChildren(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        String redirect = "student/all/parent-"+id;
+        String redirect = "/student/all/parent-"+id;
         response.sendRedirect(redirect);
     }
 }

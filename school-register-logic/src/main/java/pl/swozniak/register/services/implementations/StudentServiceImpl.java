@@ -1,6 +1,7 @@
 package pl.swozniak.register.services.implementations;
 
 import org.springframework.stereotype.Service;
+import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.StudentMapper;
 import pl.swozniak.register.model.Student;
@@ -96,6 +97,13 @@ public class StudentServiceImpl implements StudentService {
 
             return found;
         }).orElseThrow(ResourceNotFoundException::new));
+    }
+
+    @Override
+    public Long getParentIdByStudentId(Long studentId) {
+        ParentDTO parentDTO = findById(studentId).getParent();
+        if(parentDTO == null) throw new ResourceNotFoundException();
+        return parentDTO.getId();
     }
 
 }

@@ -65,8 +65,23 @@ class TeacherControllerTest {
         testFindAllWithDifferentUri("/teacher/all");
     }
 
-    private void testFindAllWithDifferentUri(String uri) throws Exception {
-        mockMvc.perform(get(uri)
+    private void testFindAllWithDifferentUri(String url) throws Exception {
+        mockMvc.perform(get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    void getAllTeachersBySubjectId() throws Exception {
+        List<TeacherDTO> teachers = new ArrayList<>();
+        teachers.add(returnedTeacher);
+        teachers.add(new TeacherDTO());
+
+        when(teacherService.findBySubjectId(anyLong())).thenReturn(teachers);
+
+        mockMvc.perform(get("/teacher/all/subject-1")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

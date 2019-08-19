@@ -44,11 +44,8 @@ public class StudentController {
 
     @GetMapping("/{studentId}/parent")
     public void getStudentParent(@PathVariable Long studentId, HttpServletResponse response) throws IOException {
-        //todo how should it look like?
-        ParentDTO parent = studentService.findById(studentId).getParent();
-        if(parent == null) throw new ResourceNotFoundException();
-
-        String redirect = "/parent/" + parent.getId();
+        Long parentId = studentService.getParentIdByStudentId(studentId);
+        String redirect = "/parent/" + parentId;
         response.sendRedirect(redirect);
     }
 

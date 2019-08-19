@@ -10,4 +10,5 @@ public interface StudentService extends CrudService<Student, StudentDTO, Long>{
     List<StudentDTO> findAllByClassId(Long classId);
     List<StudentDTO> findAllByParentId(Long parentId);
     StudentDTO patch(Long id, StudentDTO student);
+    Long getParentIdByStudentId(Long studentId);
 }

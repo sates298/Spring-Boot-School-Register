@@ -13,6 +13,7 @@ public interface StudentMapper {
             @Mapping(target = "schoolClass.students", ignore = true),
             @Mapping(target = "parent.children", ignore = true)
     })
+    //todo should be grades ignore?
     StudentDTO studentToStudentDTO(Student student);
 
     @Mappings({

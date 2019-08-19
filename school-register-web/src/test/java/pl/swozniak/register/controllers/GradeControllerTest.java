@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.swozniak.register.dtos.GradeDTO;
+import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.services.interfaces.GradeService;
 
 import java.util.Arrays;
@@ -40,8 +41,15 @@ class GradeControllerTest {
 
     MockMvc mockMvc;
 
+    private GradeDTO gradeDTO;
+
     @BeforeEach
     void setUp() {
+        gradeDTO = new GradeDTO();
+        gradeDTO.setId(ID);
+        gradeDTO.setGrade(STRING);
+        gradeDTO.setStudent(new StudentDTO());
+
         mockMvc = MockMvcBuilders
                 .standaloneSetup(gradeController)
                 .setControllerAdvice(new RestResponseEntityExceptionHandler())
@@ -50,13 +58,11 @@ class GradeControllerTest {
 
     @Test
     void getAllGrades() throws Exception {
-        GradeDTO gradeDTO1 = new GradeDTO();
-        gradeDTO1.setId(ID);
-
         GradeDTO gradeDTO2 = new GradeDTO();
         gradeDTO2.setId(ID + 1);
+        gradeDTO2.setStudent(new StudentDTO());
 
-        List<GradeDTO> gradeDTOS = Arrays.asList(gradeDTO1, gradeDTO2);
+        List<GradeDTO> gradeDTOS = Arrays.asList(gradeDTO, gradeDTO2);
 
         when(gradeService.findAllByStudentId(anyLong())).thenReturn(gradeDTOS);
 
@@ -76,9 +82,6 @@ class GradeControllerTest {
 
     @Test
     void getGrade() throws Exception {
-        GradeDTO gradeDTO = new GradeDTO();
-        gradeDTO.setGrade(STRING);
-
         when(gradeService.findById(anyLong())).thenReturn(gradeDTO);
 
         mockMvc.perform(get("/student/1/grades/1")
@@ -91,9 +94,6 @@ class GradeControllerTest {
 
     @Test
     void addGrade() throws Exception {
-        GradeDTO gradeDTO = new GradeDTO();
-        gradeDTO.setGrade(STRING);
-
         when(gradeService.saveDTO(any(), anyLong())).thenReturn(gradeDTO);
 
         testAddNewGradeWithDifferentUri("/student/1/grades/new", gradeDTO);
@@ -119,17 +119,13 @@ class GradeControllerTest {
 
     @Test
     void patchGrade() throws Exception {
-        GradeDTO gradeDTO = new GradeDTO();
-        gradeDTO.setId(ID);
-        gradeDTO.setGrade(STRING);
-
         when(gradeService.patch(anyLong(), any())).thenReturn(gradeDTO);
 
         mockMvc.perform(patch("/student/1/grades/1/resit")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(gradeDTO)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.grade", equalTo(STRING)));
     }
 }

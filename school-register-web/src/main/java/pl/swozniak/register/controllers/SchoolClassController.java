@@ -36,7 +36,7 @@ public class SchoolClassController {
 
     @GetMapping("/{classId}/students")
     public void getStudentsOneClass(@PathVariable Long classId, HttpServletResponse response) throws IOException {
-        String redirect = "student/all/class-" + classId;
+        String redirect = "/student/all/class-" + classId;
         response.sendRedirect(redirect);
     }
 }

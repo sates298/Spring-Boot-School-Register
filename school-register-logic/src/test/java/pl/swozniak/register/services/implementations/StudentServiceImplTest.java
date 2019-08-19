@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.SchoolClassDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mappers.StudentMapper;
@@ -203,5 +204,31 @@ class StudentServiceImplTest {
 
         assertNotNull(dto);
         verify(studentRepository, times(0)).save(any());
+    }
+
+    @Test
+    void getParentIdByStudentIdFound(){
+        ParentDTO parentDTO = new ParentDTO();
+        parentDTO.setId(ID);
+
+        returnedDTO.setParent(parentDTO);
+
+        when(studentRepository.findById(anyLong())).thenReturn(Optional.of(returnedStudent));
+        when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+
+        Long returnedLong = service.getParentIdByStudentId(ID);
+
+        assertEquals(Long.valueOf(ID), returnedLong);
+    }
+
+    @Test
+    void getParentIdByStudentIdNotFound(){
+        returnedDTO.setParent(null);
+
+        when(studentRepository.findById(anyLong())).thenReturn(Optional.of(returnedStudent));
+        when(mapper.studentToStudentDTO(any())).thenReturn(returnedDTO);
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> service.getParentIdByStudentId(ID));
     }
 }
