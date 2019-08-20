@@ -1,6 +1,7 @@
 package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
 
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 
 import org.springframework.stereotype.Component;
@@ -8,7 +9,9 @@ import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mail.MailSender;
-import pl.swozniak.register.mail.messagegenerators.BadBehaviorMailMessageGenerator;
+import pl.swozniak.register.mail.messagegenerators.BadBehaviorTextMessageGenerator;
+import pl.swozniak.register.mail.messagegenerators.TextMessageContent;
+import pl.swozniak.register.mail.messagegenerators.TextMessageGenerator;
 
 @Component
 public class BadBehaviorProcessNewGradeStrategy implements ProcessNewGradeStrategy {
@@ -16,11 +19,11 @@ public class BadBehaviorProcessNewGradeStrategy implements ProcessNewGradeStrate
     public static final String MAIL_SUBJECT = "Bad Behavior";
 
     private final MailSender mailSender;
-    private final BadBehaviorMailMessageGenerator messageGenerator;
+    private final TextMessageGenerator messageGenerator;
 
 
     public BadBehaviorProcessNewGradeStrategy(MailSender mailSender,
-                                              BadBehaviorMailMessageGenerator messageGenerator) {
+                                              @Qualifier("badBehaviorTextMessageGenerator") TextMessageGenerator messageGenerator) {
         this.mailSender = mailSender;
         this.messageGenerator = messageGenerator;
     }
@@ -34,7 +37,8 @@ public class BadBehaviorProcessNewGradeStrategy implements ProcessNewGradeStrate
     }
 
     private void sendMail(ParentDTO parent, StudentDTO student, String notes) {
-        String message = messageGenerator.generateMessage(parent, student.getFirstName(), notes);
+        TextMessageContent content = messageGenerator.generateDefaultContent(parent, student, notes);
+        String message = messageGenerator.generateTextMessage(content);
 
         SimpleMailMessage mail = mailSender.generateMail(parent.getEmail(), MAIL_SUBJECT, message);
 

@@ -3,7 +3,6 @@ package pl.swozniak.register.mail.messagegenerators;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.swozniak.register.dtos.ParentDTO;
-import pl.swozniak.register.mail.messagegenerators.BadBehaviorMailMessageGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +12,7 @@ class BadBehaviorMailMessageGeneratorTest {
     public static final String LAST_NAME = "lastName";
     public static final String FIRST_NAME = "firstName";
 
-    private BadBehaviorMailMessageGenerator messageGenerator;
+    private BadBehaviorTextMessageGenerator messageGenerator;
     private ParentDTO parentDTO;
     private String studentFirstName;
     private String notes;
@@ -26,7 +25,7 @@ class BadBehaviorMailMessageGeneratorTest {
         parentDTO.setLastName(LAST_NAME);
         studentFirstName = STUDENT_FIRST_NAME;
 
-        messageGenerator = new BadBehaviorMailMessageGenerator();
+        messageGenerator = new BadBehaviorTextMessageGenerator();
         builder = new StringBuilder();
         setMessageBeginning();
     }
