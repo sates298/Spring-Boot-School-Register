@@ -14,7 +14,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.swozniak.register.BeanConfiguration;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,7 +21,7 @@ import javax.mail.MessagingException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = BeanConfiguration.class)
+@ContextConfiguration(classes = MailConfiguration.class)
 public class JavaMailSenderBeanTest {
 
     @Autowired

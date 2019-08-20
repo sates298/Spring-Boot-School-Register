@@ -8,6 +8,7 @@ import pl.swozniak.register.dtos.GradeDTO;
 import pl.swozniak.register.dtos.ParentDTO;
 import pl.swozniak.register.dtos.StudentDTO;
 import pl.swozniak.register.mail.MailSender;
+import pl.swozniak.register.mail.messagegenerators.BadBehaviorMailMessageGenerator;
 
 @Component
 public class BadBehaviorProcessNewGradeStrategy implements ProcessNewGradeStrategy {

@@ -1,9 +1,9 @@
-package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
+package pl.swozniak.register.mail.messagegenerators;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.swozniak.register.dtos.ParentDTO;
-import pl.swozniak.register.gradeprocessing.aftersaveprocessing.BadBehaviorMailMessageGenerator;
+import pl.swozniak.register.mail.messagegenerators.BadBehaviorMailMessageGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 

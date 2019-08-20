@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 @Component
 public class MailSender {
-
+//TODO add interface message generator and add inheritance
     private final JavaMailSender jms;
 
     private static int noOfQuickServiceThreads = 20;

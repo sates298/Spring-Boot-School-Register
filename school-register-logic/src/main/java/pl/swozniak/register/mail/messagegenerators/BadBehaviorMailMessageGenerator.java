@@ -1,4 +1,4 @@
-package pl.swozniak.register.gradeprocessing.aftersaveprocessing;
+package pl.swozniak.register.mail.messagegenerators;
 
 import org.springframework.stereotype.Component;
 import pl.swozniak.register.dtos.ParentDTO;

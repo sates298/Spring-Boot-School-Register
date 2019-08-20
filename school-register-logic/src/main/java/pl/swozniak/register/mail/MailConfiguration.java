@@ -1,4 +1,4 @@
-package pl.swozniak.register;
+package pl.swozniak.register.mail;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:mail.properties")
-public class BeanConfiguration {
+public class MailConfiguration {
 
     @Value("${mail.host}")
     private String emailHost;
