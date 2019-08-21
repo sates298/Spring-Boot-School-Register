@@ -1,5 +1,6 @@
 package pl.swozniak.register.mail;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 @Component
 public class MailSender {
-//TODO add interface message generator and add inheritance
+//TODO add emailService
     private final JavaMailSender jms;
 
     private static int noOfQuickServiceThreads = 20;
