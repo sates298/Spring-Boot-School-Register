@@ -15,7 +15,8 @@ public abstract class AbstractTextMessageGenerator implements TextMessageGenerat
     }
 
     protected StringBuilder generateEnding(StringBuilder builder){
-        builder.append("Yours faithfully")
+        builder.append('\n')
+                .append("Yours faithfully")
                 .append('\n')
                 .append("School XYZ");
         return builder;

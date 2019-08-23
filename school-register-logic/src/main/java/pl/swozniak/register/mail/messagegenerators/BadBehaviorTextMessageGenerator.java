@@ -17,7 +17,6 @@ public class BadBehaviorTextMessageGenerator extends AbstractTextMessageGenerato
     private String generateMessageWithNotes(TextMessageContent content) {
         String firstName = content.getAddresseeFirstName();
         String lastName = content.getAddresseeLastName();
-        if(firstName == null || lastName == null) throw new NullPointerInTextContentException();
 
         StringBuilder builder =
                 generateIntroduction(firstName, lastName);
@@ -32,7 +31,6 @@ public class BadBehaviorTextMessageGenerator extends AbstractTextMessageGenerato
     private String generateMessageWithoutNotes(TextMessageContent content) {
         String firstName = content.getAddresseeFirstName();
         String lastName = content.getAddresseeLastName();
-        if(firstName == null || lastName == null) throw new NullPointerInTextContentException();
 
         StringBuilder builder =
                 generateIntroduction(firstName, lastName);

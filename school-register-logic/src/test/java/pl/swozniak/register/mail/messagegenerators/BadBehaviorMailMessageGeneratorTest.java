@@ -2,96 +2,124 @@ package pl.swozniak.register.mail.messagegenerators;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.swozniak.register.dtos.ParentDTO;
+import pl.swozniak.register.exceptions.NullPointerInTextContentException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static pl.swozniak.register.mail.messagegenerators.AbstractTextMessageGeneratorTest.*;
 
 class BadBehaviorMailMessageGeneratorTest {
-//TODO implement
-//    public static final String STUDENT_FIRST_NAME = "studentFirstName";
-//    public static final String LAST_NAME = "lastName";
-//    public static final String FIRST_NAME = "firstName";
-//
-//    private BadBehaviorTextMessageGenerator messageGenerator;
-//    private ParentDTO parentDTO;
-//    private String studentFirstName;
-//    private String notes;
-//    private StringBuilder builder;
-//
-//    @BeforeEach
-//    void setUp() {
-//        parentDTO = new ParentDTO();
-//        parentDTO.setFirstName(FIRST_NAME);
-//        parentDTO.setLastName(LAST_NAME);
-//        studentFirstName = STUDENT_FIRST_NAME;
-//
-//        messageGenerator = new BadBehaviorTextMessageGenerator();
-//        builder = new StringBuilder();
-//        setMessageBeginning();
-//    }
-//
-//    @Test
-//    void generateMessageWithNotes() {
-//        notes = "notes";
-//        setMessageMiddleNotes();
-//        setMessageEnding();
-//
-//        String finalMessage = messageGenerator.generateMessage(parentDTO, studentFirstName, notes);
-//
-//        assertNotNull(finalMessage);
-//        assertEquals(builder.toString(), finalMessage);
-//
-//    }
-//
-//    @Test
-//    void generateMessageWithNullNotes() {
-//        notes = null;
-//        setMessageEnding();
-//
-//        String finalMessage = messageGenerator.generateMessage(parentDTO, studentFirstName, notes);
-//
-//        assertNotNull(finalMessage);
-//        assertEquals(builder.toString(), finalMessage);
-//    }
-//
-//    @Test
-//    void generateMessageWithEmptyNotes() {
-//        notes = "";
-//        setMessageEnding();
-//
-//        String finalMessage = messageGenerator.generateMessage(parentDTO, studentFirstName, notes);
-//
-//        assertNotNull(finalMessage);
-//        assertEquals(builder.toString(), finalMessage);
-//    }
-//
-//    @Test
-//    void generateMessageWithBlankNotes() {
-//        notes = "       ";
-//        setMessageEnding();
-//
-//        String finalMessage = messageGenerator.generateMessage(parentDTO, studentFirstName, notes);
-//
-//        assertNotNull(finalMessage);
-//        assertEquals(builder.toString(), finalMessage);
-//    }
-//
-//
-//    private void setMessageBeginning(){
-//        builder.append("Dear ").append(FIRST_NAME).append(" ").append(LAST_NAME)
-//                .append('\n')
-//                .append("Your child, ").append(studentFirstName).append(", get a negative grade from behavior.")
-//                .append('\n');
-//    }
-//
-//    private void setMessageMiddleNotes(){
-//        builder.append("Grade with notes: ").append(notes);
-//    }
-//
-//    private void setMessageEnding(){
-//        builder.append("Yours faithfully")
-//                .append('\n')
-//                .append("School XYZ");
-//    }
 
+
+    private BadBehaviorTextMessageGenerator messageGenerator;
+    private StringBuilder expectedBuilder;
+    private TextMessageContent content;
+
+    @BeforeEach
+    void setUp() {
+
+        content = TextMessageContent.builder()
+                .addresseeFirstName(FIRST_NAME)
+                .addresseeLastName(LAST_NAME)
+                .studentFirstName(STUDENT_FIRST_NAME)
+                .studentLastName(STUDENT_LAST_NAME)
+                .build();
+
+        messageGenerator = new BadBehaviorTextMessageGenerator();
+        expectedBuilder = new StringBuilder();
+        setExpectedMessageBeginning();
+    }
+
+
+    @Test
+    void generateMessageWithNotes() {
+        String notes = "notes";
+        content.setNotes(notes);
+        setExpectedMessageMiddleNotes(notes);
+        setExpectedMessageEnding();
+
+        String finalMessage = messageGenerator.generateTextMessage(content);
+
+        assertNotNull(finalMessage);
+        assertEquals(expectedBuilder.toString(), finalMessage);
+
+    }
+
+    @Test
+    void generateMessageWithNullNotes() {
+        content.setNotes(null);
+        setExpectedMessageEnding();
+
+        String finalMessage = messageGenerator.generateTextMessage(content);
+
+        assertNotNull(finalMessage);
+        assertEquals(expectedBuilder.toString(), finalMessage);
+    }
+
+    @Test
+    void generateMessageWithEmptyNotes() {
+        String notes = "";
+        content.setNotes(notes);
+        setExpectedMessageEnding();
+
+        String finalMessage = messageGenerator.generateTextMessage(content);
+
+        assertNotNull(finalMessage);
+        assertEquals(expectedBuilder.toString(), finalMessage);
+    }
+
+    @Test
+    void generateMessageWithBlankNotes() {
+        String notes = "       ";
+        content.setNotes(notes);
+        setExpectedMessageEnding();
+
+        String finalMessage = messageGenerator.generateTextMessage(content);
+
+        assertNotNull(finalMessage);
+        assertEquals(expectedBuilder.toString(), finalMessage);
+    }
+
+
+    private void setExpectedMessageBeginning() {
+        expectedBuilder.append("Dear ").append(FIRST_NAME).append(" ").append(LAST_NAME).append('!')
+                .append('\n')
+                .append("Your child, ")
+                .append(STUDENT_FIRST_NAME)
+                .append(" ")
+                .append(STUDENT_LAST_NAME)
+                .append(", got a negative grade from behavior.")
+                .append('\n');
+    }
+
+    private void setExpectedMessageMiddleNotes(String notes) {
+        expectedBuilder.append("Grade with notes: ").append(notes);
+    }
+
+    private void setExpectedMessageEnding() {
+        expectedBuilder.append('\n')
+                .append("Yours faithfully")
+                .append('\n')
+                .append("School XYZ");
+    }
+
+    @Test
+    void generateMessageWithNullContent() {
+        assertThrows(NullPointerInTextContentException.class, () ->
+                messageGenerator.generateTextMessage(null));
+    }
+
+    @Test
+    void generateMessageStudentNamesNull() {
+        testGenerateCommonMiddleWithNullArgument(null, STUDENT_LAST_NAME);
+        testGenerateCommonMiddleWithNullArgument(STUDENT_FIRST_NAME, null);
+        testGenerateCommonMiddleWithNullArgument(null, null);
+    }
+
+    private void testGenerateCommonMiddleWithNullArgument(String sfn, String sln) {
+        content.setStudentFirstName(sfn);
+        content.setStudentLastName(sln);
+
+        assertThrows(NullPointerInTextContentException.class, () ->
+        messageGenerator.generateTextMessage(content));
+    }
 }
