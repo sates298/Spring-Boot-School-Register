@@ -5,6 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class TextMessageContent {
     private String addresseeFirstName;
     private String addresseeLastName;

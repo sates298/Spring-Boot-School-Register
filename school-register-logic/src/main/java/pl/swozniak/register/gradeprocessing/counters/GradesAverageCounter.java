@@ -9,11 +9,12 @@ import java.util.List;
 @Component
 public class GradesAverageCounter {
 
-    public Double countAverage(List<GradeDTO> grades){
+    public Double calculateAverage(List<GradeDTO> grades){
         Double sum = 0.0;
+        if(grades == null || grades.size() <= 0) return 0.0;
         for (GradeDTO grade: grades){
             sum+=GradeValue.fromString(grade.getGrade()).getValue();
         }
-        return grades.size() > 0 ? sum/grades.size() : 0.0;
+        return sum/grades.size();
     }
 }

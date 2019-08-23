@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import pl.swozniak.register.dtos.StudentDTO;
+import pl.swozniak.register.exceptions.NullPointerInTextContentException;
+import pl.swozniak.register.exceptions.NullPointerWhileSendingMailException;
 import pl.swozniak.register.gradeprocessing.counters.GradesAverageCounter;
 import pl.swozniak.register.mail.MailSender;
 import pl.swozniak.register.mail.messagegenerators.TextMessageContent;
@@ -33,6 +35,9 @@ public class BackgroundJobMailSender {
     private void sendOneMail(StudentDTO student){
         String message = messageGenerator.generateTextMessage(createMessageContent(student));
 
+        if(student.getParent() == null || student.getParent().getEmail() == null)
+            throw new NullPointerWhileSendingMailException();
+
         String mailTo = student.getParent().getEmail();
         SimpleMailMessage mailMessage = mailSender.generateMail(mailTo, MAIL_SUBJECT, message);
         mailSender.sendMail(mailMessage);
@@ -43,7 +48,7 @@ public class BackgroundJobMailSender {
                 student.getParent(),
                 student,
                 averageCounter
-                        .countAverage(student.getGrades())
+                        .calculateAverage(student.getGrades())
                         .toString()
         );
     }
