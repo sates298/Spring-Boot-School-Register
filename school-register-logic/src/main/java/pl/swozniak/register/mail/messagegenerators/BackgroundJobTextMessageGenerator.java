@@ -17,11 +17,11 @@ public class BackgroundJobTextMessageGenerator extends AbstractTextMessageGenera
     private StringBuilder generateFullText(TextMessageContent content){
         String firstName = content.getAddresseeFirstName();
         String lastName = content.getAddresseeLastName();
-        if(firstName == null || lastName == null) throw new NullPointerInTextContentException();
 
-        StringBuilder builder = super.generateIntroduction(firstName, lastName);
-
-        builder = generateMiddle(content, builder);
+        StringBuilder builder  = generateMiddle(
+                content,
+                super.generateIntroduction(firstName, lastName)
+        );
 
         return super.generateEnding(builder);
     }
