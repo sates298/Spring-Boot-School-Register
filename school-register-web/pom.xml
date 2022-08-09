@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>pl.swozniak.register</groupId>
-            <artifactId>school-register-data</artifactId>
+            <artifactId>school-register-logic</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -40,6 +40,14 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.1.7.RELEASE</version>
+        </dependency>
+
+
 
         <!--tests dependencies-->
         <dependency>
@@ -67,6 +75,11 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.4</version>
         </dependency>
         <!--end of tests dependencies-->
     </dependencies>

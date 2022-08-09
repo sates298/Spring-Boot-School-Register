@@ -1,48 +1,52 @@
 package pl.swozniak.register.model;
 
 import lombok.*;
+import pl.swozniak.register.model.builders.GradeBuilder;
+import pl.swozniak.register.model.enums.GradeValue;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "grades")
 public class Grade extends BaseEntity {
 
     @Column(name = "grade")
-    @Min(0)
-    @Max(6)
     @NotNull
-    private Integer grade;
+    @Enumerated
+    private GradeValue grade;
 
-    @Column(name = "wage")
-    @Min(1)
-    @Max(6)
-    @NotNull
-    private Integer wage;
+//    @Column(name = "wage")
+//    @NotNull
+//    private Integer wage;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 
     @Column(name = "notes")
-    @Size(min = 2, max = 255)
-    @NotNull
+    @Size(max = 255)
     private String notes;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
+
     @Builder
-    public Grade(Long id, Integer grade, Integer wage, String notes, Student student) {
+    public Grade(Long id, @NotNull GradeValue grade, Subject subject, @Size(max = 255) String notes, Student student) {
         super(id);
         this.grade = grade;
-        this.wage = wage;
+        this.subject = subject;
         this.notes = notes;
         this.student = student;
     }
+
+//    public static GradeBuilder builder(){
+//        return new GradeBuilder();
+//    }
 }

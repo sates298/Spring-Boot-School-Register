@@ -1,43 +1,62 @@
 package pl.swozniak.register.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.swozniak.register.model.Student;
-import pl.swozniak.register.services.GradeService;
-import pl.swozniak.register.services.StudentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.swozniak.register.dtos.ParentDTO;
+import pl.swozniak.register.dtos.StudentDTO;
+import pl.swozniak.register.services.interfaces.StudentService;
+import pl.swozniak.register.exceptions.ResourceNotFoundException;
 
-@Controller
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+@RestController
 @RequestMapping("student")
 public class StudentController {
 
     private final StudentService studentService;
-    private final GradeService gradeService;
 
-    public StudentController(StudentService studentService, GradeService gradeService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.gradeService = gradeService;
     }
 
-    @GetMapping({"", "/", "/all"})
-    public String showAllStudents(Model model){
-        model.addAttribute("students", studentService.findAll());
-        return "student/allStudents";
+    @GetMapping({"", "/","/all"})
+    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+        return new ResponseEntity<>(studentService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping({"/all/class-{classId}"})
+    public ResponseEntity<List<StudentDTO>> getAllStudentsByClassId(@PathVariable Long classId){
+        return new ResponseEntity<>(studentService.findAllByClassId(classId),HttpStatus.OK);
+    }
+
+    @GetMapping("/all/parent-{parentId}")
+    public ResponseEntity<List<StudentDTO>> getAllStudentsByParentId(@PathVariable Long parentId){
+        return new ResponseEntity<>(studentService.findAllByParentId(parentId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String showOneStudent(Model model, @PathVariable Long id){
-        Student found = studentService.findById(id);
-        if(found == null){
-            return "notFound";
-        }
-
-        model.addAttribute("student", found);
-//        i think it is not necessary
-        model.addAttribute("grades", gradeService.findAllByStudentId(id));
-
-        return "student/studentDetails";
+    public ResponseEntity<StudentDTO> getOneStudent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);
     }
+
+    @GetMapping("/{studentId}/parent")
+    public void getStudentParent(@PathVariable Long studentId, HttpServletResponse response) throws IOException {
+        Long parentId = studentService.getParentIdByStudentId(studentId);
+        String redirect = "/parent/" + parentId;
+        response.sendRedirect(redirect);
+    }
+
+    @PostMapping({"/new", "/add"})
+    public ResponseEntity<StudentDTO> addStudent(@RequestBody StudentDTO student){
+        return new ResponseEntity<>(studentService.saveDTO(student), HttpStatus.CREATED);
+    }
+
+    @PatchMapping({"/{id}", "/{id}/update"})
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable Long id, @RequestBody StudentDTO student){
+        return new ResponseEntity<>(studentService.patch(id, student), HttpStatus.OK);
+    }
+
 }
